@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sweep — delete every email from one sender, in two clicks</title>
+<meta name="description" content="A Chrome extension that finds every email from one sender in Gmail and selects the lot, so you can delete years of newsletters in two clicks. No sign-in, no inbox access, open source.">
+
+<meta property="og:title" content="Sweep — delete every email from one sender, in two clicks">
+<meta property="og:description" content="Finds every email from one sender in Gmail and selects the lot. No sign-in, no inbox access, open source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pekhota.github.io/sweep-for-gmail/">
+<meta property="og:image" content="https://pekhota.github.io/sweep-for-gmail/promo-marquee.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  :root {
+    --fg:#14142b; --muted:#5a5a72; --line:#e7e7f2; --accent:#4f46e5; --accent-2:#6366f1;
+    --bg:#fff; --panel:#f7f7fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#eaeaf4; --muted:#a2a2ba; --line:#2b2b40; --accent:#8b85f5; --accent-2:#a5a0ff;
+            --bg:#101018; --panel:#191926; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--fg); background: var(--bg); -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.5rem; }
+  a { color: var(--accent); }
+
+  header { padding: 2rem 0; }
+  .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; font-size: 1.25rem; letter-spacing: -.3px; }
+  .brand .mk {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .hero { padding: 3.5rem 0 4rem; text-align: center; }
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.08; letter-spacing: -1.6px; font-weight: 800;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p.sub {
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--muted);
+    margin: 1.2rem auto 0; max-width: 40rem;
+  }
+  .cta { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; margin-top: 2.2rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+    padding: .85rem 1.6rem; border-radius: 2rem; font-weight: 600; font-size: 1rem;
+    border: 1px solid var(--line); color: var(--fg);
+  }
+  .btn.primary {
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    border-color: transparent; color: #fff;
+    box-shadow: 0 10px 26px rgba(79,70,229,.32);
+  }
+  .trust { margin-top: 1.4rem; color: var(--muted); font-size: .92rem; }
+
+  .shot { margin: 1rem auto 0; max-width: 58rem; }
+  .shot img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line);
+              box-shadow: 0 20px 50px rgba(20,18,70,.14); display: block; }
+
+  section { padding: 4rem 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing: -.7px; margin-bottom: .6rem; }
+  .lede { color: var(--muted); max-width: 40rem; margin-bottom: 2rem; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem; }
+  .step .n {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9rem;
+    margin-bottom: .7rem;
+  }
+  .step h3 { font-size: 1.06rem; margin-bottom: .3rem; }
+  .step p { color: var(--muted); font-size: .96rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.2rem; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 1.5rem; }
+  .card h3 { font-size: 1.04rem; margin-bottom: .4rem; }
+  .card p { color: var(--muted); font-size: .95rem; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 1.4rem; font-size: .95rem; }
+  th, td { text-align: left; padding: .8rem .6rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .8rem; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+  td.yes { color: #16a34a; font-weight: 600; }
+  td.no { color: var(--muted); }
+
+  footer { padding: 3rem 0 4rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  footer a { margin-right: 1rem; }
+  .disclaimer { margin-top: 1rem; font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="mk">
+        <svg width="19" height="19" viewBox="0 0 16 16">
+          <rect x="2.6" y="4.2" width="10.8" height="7.6" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <path d="M2.6 4.2 L8 8.6 L13.4 4.2" fill="none" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </span>
+      Sweep
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Delete every email from one sender.<br><span>In two clicks.</span></h1>
+    <p class="sub">
+      Four years of a newsletter you never opened, gone. Sweep finds every message from a
+      sender and selects the lot — then you press Delete.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#" id="cws">Add to Chrome — free</a>
+      <a class="btn" href="https://github.com/pekhota/sweep-for-gmail">View source</a>
+    </div>
+    <p class="trust">No sign-in · No inbox access · No data collected · Open source</p>
+  </div>
+
+  <div class="shot">
+    <img src="shot-1.png" alt="Gmail with Sweep's Similar button in the toolbar above an open newsletter">
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>How it works</h2>
+    <p class="lede">Three steps, and the last one is Gmail's.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>Open an email</h3>
+        <p>Any message from the sender you're tired of. Sweep reads who sent it.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3>Click Similar</h3>
+        <p>Sweep searches your mail, waits for the results, and ticks every match — all 1,036, not the 25 on screen.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>Press Delete</h3>
+        <p>Gmail's own button. Everything goes to Trash, recoverable for 30 days.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Filter before you delete</h2>
+    <p class="lede">
+      Not everything from a sender is junk. Open the panel and keep what still matters.
+    </p>
+    <div class="shot" style="margin-bottom:2rem">
+      <img src="shot-2.png" alt="Sweep's filter panel showing age, read state, size and keep-starred options">
+    </div>
+    <div class="grid">
+      <div class="card"><h3>Older than</h3><p>7 days, 1 month, 6 months, 1 year or 2 years. Keep the recent ones.</p></div>
+      <div class="card"><h3>Bigger than</h3><p>1, 5, 10 or 25 MB. Reclaim storage first, worry about the rest later.</p></div>
+      <div class="card"><h3>Read or unread</h3><p>Delete what you've already seen. Or only what you never opened.</p></div>
+      <div class="card"><h3>Keep starred</h3><p>On by default. Important mail can be protected too.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pagination at the bottom, where you are</h2>
+    <p class="lede">
+      Gmail puts Older / Newer at the top of the list and nowhere else, so every page turn
+      means scrolling back up. Sweep mirrors it at the end of every list and every search.
+    </p>
+    <div class="shot">
+      <img src="shot-4.png" alt="A second set of pagination arrows at the bottom of a Gmail message list">
+    </div>
+  </section>
+
+  <section>
+    <h2>It cannot read your mailbox</h2>
+    <p class="lede">
+      Not "does not" — <em>cannot</em>. Sweep has no server and never asks for your Google
+      account, so there is nowhere for your mail to go and nothing to connect to.
+    </p>
+    <table>
+      <thead>
+        <tr><th></th><th>Sweep</th><th>Typical inbox cleaner</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sign in with Google</td><td class="yes">Never asked</td><td class="no">Required</td></tr>
+        <tr><td>Grants mailbox access to a server</td><td class="yes">No server exists</td><td class="no">Yes</td></tr>
+        <tr><td>Reads mail when your browser is closed</td><td class="yes">Impossible</td><td class="no">Usually</td></tr>
+        <tr><td>Network requests</td><td class="yes">None at all</td><td class="no">Continuous</td></tr>
+        <tr><td>Source code</td><td class="yes">Public</td><td class="no">Closed</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1.6rem; color:var(--muted); font-size:.95rem">
+      Read the <a href="privacy.html">privacy policy</a>, or just
+      <a href="https://github.com/pekhota/sweep-for-gmail/blob/main/content.js">read the code</a> —
+      it's one file.
+    </p>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Can I get deleted mail back?</h3>
+        <p>Yes. Sweep uses Gmail's Delete, which moves mail to Trash where it stays for 30 days. Sweep cannot delete permanently or empty Trash.</p>
+      </div>
+      <div class="card">
+        <h3>Does it work with multiple accounts?</h3>
+        <p>Yes. It stays within whichever account you're using and never crosses between them.</p>
+      </div>
+      <div class="card">
+        <h3>How many can it delete at once?</h3>
+        <p>Gmail caps bulk actions at about 1,000 conversations. For bigger cleanups, repeat — it takes seconds.</p>
+      </div>
+      <div class="card">
+        <h3>Does it unsubscribe me?</h3>
+        <p>No. Sweep deletes what already arrived. Use Gmail's own unsubscribe link to stop new mail.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/pekhota/sweep-for-gmail">GitHub</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://github.com/pekhota/sweep-for-gmail/issues">Report a bug</a>
+    <p class="disclaimer">
+      Gmail is a trademark of Google LLC. Sweep is an independent open-source project and is
+      not affiliated with, endorsed by, or sponsored by Google.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

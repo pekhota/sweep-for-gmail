@@ -1,105 +1,136 @@
-# Similar & Purge for Gmail
+<div align="center">
 
-Open an email → click **Similar** → every other email from that sender is found and
-selected, ready for Gmail's Delete button. The **▾** half opens a panel for narrowing it
-down by age, read state, size and more first.
+# Sweep
 
-Also mirrors Gmail's pagination to the bottom of list views, since Gmail only offers it at
-the top.
+**Delete every email from one sender, in two clicks.**
 
-No OAuth, no Google Cloud project, no API keys, no network calls. The extension reads the
-open conversation from the page, hands a query to Gmail's own search, and ticks Gmail's own
-checkboxes.
+No sign-in · No inbox access · No data collected · Open source
+
+</div>
+
+---
+
+Open any email in Gmail, click **Similar**, and Sweep finds every other message from that
+sender and selects the lot — all 1,036 of them, not the 25 on screen. Then you press Gmail's
+own Delete.
+
+It also adds the thing Gmail has never had: pagination at the *bottom* of a message list.
+
+## Why it needs no account
+
+Most inbox cleaners ask you to sign in with Google so their servers can read your mailbox.
+Sweep can't do that even in principle. It has no server and makes no network requests — it
+drives the Gmail page already open in your browser, performing the same actions you could
+perform by hand.
+
+The only permission it requests is `storage`, used to remember your filter choices locally.
 
 ## Install
 
-1. Open `chrome://extensions`
-2. Turn on **Developer mode** (top right)
-3. **Load unpacked** → pick this folder (`/Users/alex/personal/gmail-ext`)
-4. Reload any open Gmail tab
+**From the Chrome Web Store:** *(link once published)*
+
+**From source:**
+
+1. Download or clone this repository
+2. Open `chrome://extensions`
+3. Turn on **Developer mode** (top right)
+4. **Load unpacked** → select this folder
+5. Reload any open Gmail tab
 
 ## Use
 
-Open an email — a split button appears in the conversation toolbar:
+Open an email. A split button appears in the conversation toolbar.
 
-- **Similar** (left half) — one click and you're done: searches `from:<sender>`, then
-  selects every matching conversation automatically. No filters, no panel.
-- **▾** (right half) — opens the filter panel below.
+**Similar** (left half) — one click: searches `from:<sender>`, waits for the results, ticks
+select-all and expands it to every match.
 
-### The filter panel
+**▾** (right half) — opens the filter panel:
 
-1. Open an email.
-2. Click the **▾** half of the button.
-3. Pick the sender and narrow it down:
-   - Older than — 7 days / 1 month / 6 months / 1 year / 2 years
-   - Read state — any / unread only / read only
-   - Larger than — 1 / 5 / 10 / 25 MB
-   - Has an attachment
-   - Inbox only (skip archived)
-   - Keep starred (on by default)
-   - Keep important
-4. The built query is shown live, e.g. `from:news@acme.com older_than:6m -is:starred`
-5. Then either:
-   - **Search** — runs the query, leaves the rest to you
-   - **Search & select all** — runs the query and auto-selects every match
+| Filter | Options |
+|---|---|
+| Older than | 7 days · 1 month · 6 months · 1 year · 2 years |
+| Read state | Any · unread only · read only |
+| Larger than | 1 · 5 · 10 · 25 MB |
+| Has an attachment | on / off |
+| Inbox only | skip archived mail |
+| Keep starred | **on by default** |
+| Keep important | on / off |
 
-Filter choices persist between uses; the sender is always re-read from the open email.
+The exact search is previewed live, e.g. `from:news@acme.com older_than:6m -is:starred`.
+Choices persist between uses; the sender is always re-read from the open email.
 
-### Selection
+Then **Search** (just look) or **Search & select all** (auto-select).
 
-Both **Similar** and **Search & select all** wait for the results, tick select-all, and
-expand it to *every* matching conversation — not just the current page.
+### Deleting
 
-Deleting is then Gmail's job: untick anything you want to keep and hit Delete in Gmail's own
-toolbar. The extension never deletes anything itself, and shows no messages of its own —
-Gmail's search state, empty-results text and selection banner already cover every case.
-Failures go to the browser console under `[Similar & Purge]`.
+Sweep never deletes anything. It hands Gmail a finished selection and stops — you press
+Delete. Everything goes to Trash, recoverable for 30 days, and Sweep has no way to delete
+permanently or empty Trash.
 
-It never auto-selects a search you typed into Gmail's own box. Use the panel's plain
-**Search** button when you only want to look.
+It shows no messages of its own; Gmail's own banners and ticked rows already report what
+happened. Failures are logged to the console under `[Sweep]`.
 
-## Pagination at the bottom
+### Bottom pagination
 
-Gmail only shows "1–50 of 1,234" and the Older / Newer arrows in the top toolbar. This adds
-a second set at the end of the list, centred just above the "Terms · Privacy · Program
-Policies" footer — so when you reach the bottom of a page of results, the next-page control
-is right there.
+Gmail only shows `1–50 of 1,234` and the Older / Newer arrows at the top of a list. Sweep
+mirrors that at the end of the list — centred above the *Terms · Privacy · Program Policies*
+footer — on the inbox, any label, any category and any search.
 
-The footer is found via the storage meter's text (digits plus a size unit, so it doesn't
-depend on the UI language) and the pager is inserted above the row that holds it. If that
-row can't be found, the pager falls back to a small floating bar at the bottom right.
+It pages via Gmail's own URL scheme (a trailing `/pN` on the hash), so it doesn't depend on
+Gmail's markup to work.
 
-Colours are read at runtime off a real sidebar label row, because Gmail themes are
-background images with translucent overlays — `prefers-color-scheme` and any fixed palette
-get it wrong on every theme but plain white.
+## Limits
 
-It pages via Gmail's own URL scheme — a trailing `/pN` on the hash, e.g.
-`#search/from%3Anews%40acme.com/p3` — rather than by driving Gmail's buttons, so it doesn't
-depend on Gmail's markup at all.
-
-The label shows Gmail's "1–50 of 1,234" readout when that can be read off the toolbar, and
-falls back to "Page N" when it can't. The bar hides on an open conversation and when
-everything already fits on one page.
-
-## Notes & limits
-
-- Gmail's markup is obfuscated and changes without notice. The stable hooks used here are
-  attribute-based (`gh="mtb"` toolbar, `data-message-id` messages, `span[email]` senders).
-  If Gmail moves them, the button either won't appear or the console will say what couldn't
-  be found — nothing happens silently and wrongly.
 - The "Select all N conversations that match this search" step is matched by **English**
-  text. On a non-English Gmail UI that step is skipped, so only the current page (50
-  conversations) gets selected.
-- Gmail search caps out at moving ~1,000 conversations per bulk action; repeat for very
-  large batches.
-- Basic HTML view (`?ui=html`) is not supported.
-- The `storage` permission is only used to remember your filter choices locally.
+  text. On a non-English Gmail interface only the current page gets selected. Everything
+  else is language-independent.
+- Gmail caps bulk actions at roughly 1,000 conversations. Repeat for larger cleanups.
+- Gmail's basic HTML view (`?ui=html`) is unsupported.
+- Gmail's markup changes without notice. Sweep uses the most stable hooks available and
+  fails silently rather than acting on the wrong thing.
 
-## Files
+## Layout
 
-| File | Purpose |
-|------|---------|
-| `manifest.json` | MV3 manifest — one content script on `mail.google.com`, `storage` permission |
-| `content.js` | Sender detection, query builder, filter panel, auto-select, pagination bar |
-| `content.css` | Styles for the injected split button (panel and pager are in a shadow root) |
-| `icons/` | 16 / 48 / 128 px icons |
+| Path | Purpose |
+|---|---|
+| `manifest.json` | MV3 manifest — one content script, one permission |
+| `content.js` | Sender detection, query builder, filter panel, auto-select, pagination |
+| `content.css` | The injected toolbar button (panel and pager live in shadow roots) |
+| `icons/` | 16 / 48 / 128 px, generated by `tools/make_icons.py` |
+| `docs/` | Landing page and privacy policy (GitHub Pages) |
+| `assets/src/` | Store artwork sources; `assets/store/` holds the rendered PNGs |
+| `CHROMEWEBSTORE.md` | Store listing copy, permission justifications, data disclosure |
+| `LAUNCH.md` | Launch and growth plan |
+
+## Development
+
+```bash
+python3 tools/make_icons.py    # regenerate icons
+./tools/make_assets.sh         # render store artwork at exact sizes
+./tools/package.sh             # build dist/sweep-<version>.zip for upload
+node --check content.js        # syntax check
+```
+
+After editing `content.js`, click the **⟳ reload** icon on the extension's card in
+`chrome://extensions` *and then* reload Gmail. Refreshing Gmail alone re-injects Chrome's
+cached copy of the old script.
+
+## Privacy
+
+No data is collected, stored, transmitted or sold. Verify it yourself:
+
+```bash
+grep -nE "fetch|XMLHttpRequest|WebSocket|sendBeacon|storage\.sync" content.js
+# no matches
+```
+
+Full policy: [`docs/privacy.html`](docs/privacy.html)
+
+## Licence
+
+MIT
+
+---
+
+Gmail is a trademark of Google LLC. Sweep is an independent project and is not affiliated
+with, endorsed by, or sponsored by Google.

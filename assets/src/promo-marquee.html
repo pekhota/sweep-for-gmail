@@ -1,0 +1,96 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sweep — marquee promo tile</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Google Sans", Roboto, -apple-system, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .tile {
+    width: 1400px; height: 560px;
+    background: linear-gradient(120deg, #6366f1 0%, #4f46e5 46%, #4338ca 100%);
+    display: flex; align-items: center; gap: 60px; padding: 0 78px;
+    position: relative; overflow: hidden;
+  }
+  .glow {
+    position: absolute; width: 720px; height: 720px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,.15) 0%, rgba(255,255,255,0) 66%);
+    right: -190px; top: -230px;
+  }
+  .left { width: 620px; flex: none; position: relative; }
+  .mark { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+  .mark .env {
+    width: 50px; height: 50px; border-radius: 12px; background: rgba(255,255,255,.17);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mark .name { color: #fff; font-size: 30px; font-weight: 700; letter-spacing: -.4px; }
+  h1 { color: #fff; font-size: 52px; line-height: 1.12; font-weight: 700; letter-spacing: -1.3px; }
+  h1 span { color: #c7d2fe; }
+  p { color: #dcdefb; font-size: 19px; margin-top: 22px; line-height: 1.5; }
+  .pills { display: flex; gap: 10px; margin-top: 30px; }
+  .pill {
+    background: rgba(255,255,255,.15); color: #fff; font-size: 13.5px; font-weight: 500;
+    padding: 8px 15px; border-radius: 18px;
+  }
+
+  /* miniature of the real UI */
+  .shot {
+    flex: 1; background: #fff; border-radius: 14px; overflow: hidden; position: relative;
+    box-shadow: 0 26px 60px rgba(20, 18, 70, .34);
+  }
+  .bar { height: 44px; border-bottom: 1px solid #f1f1f3; display: flex; align-items: center; gap: 9px; padding: 0 14px; }
+  .sq { width: 16px; height: 16px; border-radius: 3px; background: #dadce0; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px;
+    border-radius: 14px; background: #e8f0fe; color: #1967d2; font-size: 12.5px; font-weight: 600;
+    box-shadow: 0 0 0 3px rgba(79,70,229,.22);
+  }
+  .banner { background: #f8fafd; border-bottom: 1px solid #f1f1f3; padding: 8px 14px; font-size: 11.5px; color: #202124; text-align: center; }
+  .banner b { color: #0b57d0; }
+  .r { height: 34px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border-bottom: 1px solid #f6f6f8; font-size: 11.5px; background: #c2dbff; }
+  .cb { width: 13px; height: 13px; border-radius: 2px; background: #0b57d0; flex: none; }
+  .who { width: 104px; font-weight: 700; color: #202124; }
+  .su { flex: 1; color: #3c4043; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+</style>
+
+<div class="tile">
+  <div class="glow"></div>
+
+  <div class="left">
+    <div class="mark">
+      <div class="env">
+        <svg width="27" height="27" viewBox="0 0 16 16">
+          <rect x="2.6" y="4.2" width="10.8" height="7.6" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <path d="M2.6 4.2 L8 8.6 L13.4 4.2" fill="none" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="name">Sweep</div>
+    </div>
+
+    <h1>Delete every email<br>from one sender.<br><span>In two clicks.</span></h1>
+    <p>Open an email, click Similar, press Delete.<br>That's the whole product.</p>
+
+    <div class="pills">
+      <div class="pill">No sign-in</div>
+      <div class="pill">No inbox access</div>
+      <div class="pill">Open source</div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="bar">
+      <div class="sq" style="border:2px solid #0b57d0;background:#0b57d0"></div>
+      <div class="sq"></div>
+      <div class="btn">🔍 Similar</div>
+      <div class="sq"></div>
+      <div style="flex:1"></div>
+      <div style="font-size:11px;color:#5f6368">1–25 of 1,036</div>
+    </div>
+    <div class="banner">All 25 on this page are selected. <b>Select all 1,036 that match</b></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">Weekly deals you didn't ask for</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">Last chance: 40% off everything</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">We miss you! Here's 10% off</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">Your weekly roundup</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">Flash sale starts now</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">New arrivals this week</span></div>
+    <div class="r"><span class="cb"></span><span class="who">Zenith Retail</span><span class="su">Don't miss out on these picks</span></div>
+  </div>
+</div>

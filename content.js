@@ -1,5 +1,5 @@
 /**
- * Similar & Purge for Gmail
+ * Sweep — bulk delete email by sender, for Gmail
  *
  * Adds a "Similar" split button to the toolbar while a conversation is open. It reads the
  * sender off the open message, hands a query to Gmail's own search, waits for the results
@@ -15,10 +15,10 @@
 (() => {
   'use strict';
 
-  if (window.__similarAndPurgeLoaded) return;
-  window.__similarAndPurgeLoaded = true;
+  if (window.__sweepLoaded) return;
+  window.__sweepLoaded = true;
 
-  const STORAGE_KEY = 'sp:lastFilters';
+  const STORAGE_KEY = 'sweep:filters';
 
   /* ------------------------------------------------------------------ *
    * Small helpers
@@ -338,7 +338,7 @@
   `;
 
   const host = document.createElement('div');
-  host.id = 'sp-shadow-host';
+  host.id = 'sw-shadow-host';
   host.style.cssText = 'all:initial;position:static;';
   const shadow = host.attachShadow({ mode: 'open' });
   const styleEl = document.createElement('style');
@@ -350,7 +350,7 @@
    * Nothing user-facing is reported: Gmail already shows its own search state, empty
    * results and selection banner. Failures go to the console for debugging only.
    */
-  const warn = (...args) => console.warn('[Similar & Purge]', ...args);
+  const warn = (...args) => console.warn('[Sweep]', ...args);
 
   /* ---------------------------- the panel ---------------------------- */
 
@@ -370,7 +370,7 @@
   function closePanel() {
     panel?.remove();
     panel = null;
-    document.querySelector('.sp-options')?.setAttribute('aria-expanded', 'false');
+    document.querySelector('.sw-options')?.setAttribute('aria-expanded', 'false');
   }
 
   /** One click, no panel: everything from the sender of the open message, auto-selected. */
@@ -501,7 +501,7 @@
     });
 
     // Anchor under the whole split button, nudged inside the viewport.
-    const rect = (anchorEl.closest('.sp-split') || anchorEl).getBoundingClientRect();
+    const rect = (anchorEl.closest('.sw-split') || anchorEl).getBoundingClientRect();
     panel.style.top = `${Math.round(rect.bottom + 8)}px`;
     panel.style.left = `${Math.round(Math.min(rect.left, window.innerWidth - 330 - 16))}px`;
 
@@ -548,21 +548,21 @@
    */
   function makeSplitButton() {
     const group = document.createElement('div');
-    group.className = 'sp-split';
+    group.className = 'sw-split';
     group.setAttribute('role', 'group');
     group.innerHTML = `
-      <div class="sp-toolbar-btn sp-quick" role="button" tabindex="0" data-sp="quick"
+      <div class="sw-toolbar-btn sw-quick" role="button" tabindex="0" data-sp="quick"
            aria-label="Show all email from this sender"
            title="Show all email from this sender">
-        <svg class="sp-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <svg class="sw-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <circle cx="7" cy="7" r="4.4" fill="none" stroke="currentColor" stroke-width="1.6"/>
           <path d="M10.4 10.4 L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
         </svg>Similar
       </div>
-      <div class="sp-toolbar-btn sp-options" role="button" tabindex="0" data-sp="options"
+      <div class="sw-toolbar-btn sw-options" role="button" tabindex="0" data-sp="options"
            aria-expanded="false" aria-label="Similar email, with filters"
            title="Filter, then bulk delete">
-        <span class="sp-caret"></span>
+        <span class="sw-caret"></span>
       </div>
     `;
     return group;
@@ -580,12 +580,12 @@
     document.addEventListener(
       type,
       (event) => {
-        const part = event.target?.closest?.('.sp-toolbar-btn');
+        const part = event.target?.closest?.('.sw-toolbar-btn');
         if (!part || !predicate(event)) return;
         event.preventDefault();
         event.stopPropagation();
         if (type === 'mousedown' || type === 'keydown') {
-          activate(part).catch((err) => console.error('[Similar & Purge]', err));
+          activate(part).catch((err) => console.error('[Sweep]', err));
         }
       },
       true
@@ -600,7 +600,7 @@
 
   function syncButton() {
     const tb = toolbar();
-    const existing = document.querySelector('.sp-split');
+    const existing = document.querySelector('.sw-split');
 
     if (!tb || !isThreadOpen()) {
       if (existing) {
@@ -771,7 +771,7 @@
   }
 
   const pagerHost = document.createElement('div');
-  pagerHost.className = 'sp-pager-host';
+  pagerHost.className = 'sw-pager-host';
   const pagerShadow = pagerHost.attachShadow({ mode: 'open' });
   const pagerStyle = document.createElement('style');
   pagerStyle.textContent = PAGER_CSS;
@@ -884,7 +884,7 @@
     (event) => {
       if (!panel) return;
       if (event.target === host || event.composedPath().includes(host)) return;
-      if (event.target.closest?.('.sp-toolbar-btn')) return;
+      if (event.target.closest?.('.sw-toolbar-btn')) return;
       closePanel();
     },
     true

@@ -1,14 +1,14 @@
 /* Light-DOM styles: only the toolbar split button lives outside the shadow root.
-   Everything else is scoped inside #sp-shadow-host. */
+   Everything else is scoped inside #sw-shadow-host. */
 
-.sp-split {
+.sw-split {
   display: inline-flex;
   align-items: center;
   margin: 0 4px;
   vertical-align: middle;
 }
 
-.sp-toolbar-btn {
+.sw-toolbar-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -31,34 +31,34 @@
 }
 
 /* Children never become the event target — keeps the delegated handler simple. */
-.sp-toolbar-btn * {
+.sw-toolbar-btn * {
   pointer-events: none;
 }
 
 /* Left half: search straight away. */
-.sp-quick {
+.sw-quick {
   border-radius: 16px 0 0 16px;
   padding-right: 10px;
 }
 
 /* Right half: open the filter panel. Shares the seam with the left half. */
-.sp-options {
+.sw-options {
   border-radius: 0 16px 16px 0;
   border-left: none;
   padding: 0 10px;
 }
 
-.sp-toolbar-btn:hover {
+.sw-toolbar-btn:hover {
   background: #f1f3f4;
   border-color: #d2d5d9;
 }
 
-.sp-quick:hover + .sp-options,
-.sp-options:hover {
+.sw-quick:hover + .sw-options,
+.sw-options:hover {
   border-color: #d2d5d9;
 }
 
-.sp-toolbar-btn[aria-expanded="true"] {
+.sw-toolbar-btn[aria-expanded="true"] {
   background: #e8f0fe;
   border-color: #d2e3fc;
   color: #1967d2;
@@ -66,19 +66,19 @@
 
 /* Inherits currentColor, so it tracks the button's own text colour in hover,
    active and dark states instead of reading as a status light. */
-.sp-toolbar-btn .sp-icon {
+.sw-toolbar-btn .sw-icon {
   width: 14px;
   height: 14px;
   flex: none;
   opacity: .8;
 }
 
-.sp-toolbar-btn:hover .sp-icon {
+.sw-toolbar-btn:hover .sw-icon {
   opacity: 1;
 }
 
 /* Caret drawn in CSS so no extra asset is needed. */
-.sp-toolbar-btn .sp-caret {
+.sw-toolbar-btn .sw-caret {
   width: 0;
   height: 0;
   border-left: 4px solid transparent;
@@ -89,17 +89,17 @@
 
 /* Gmail's dark theme */
 @media (prefers-color-scheme: dark) {
-  .sp-toolbar-btn {
+  .sw-toolbar-btn {
     background: #202124;
     border-color: #5f6368;
     color: #e8eaed;
   }
 
-  .sp-toolbar-btn:hover {
+  .sw-toolbar-btn:hover {
     background: #2d2e30;
   }
 
-  .sp-toolbar-btn[aria-expanded="true"] {
+  .sw-toolbar-btn[aria-expanded="true"] {
     background: #1f3a5f;
     border-color: #2c5282;
     color: #8ab4f8;

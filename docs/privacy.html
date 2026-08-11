@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Sweep for Gmail</title>
+<meta name="description" content="Sweep collects no data, makes no network requests, and has no server. Full privacy policy.">
+<style>
+  :root { --fg:#1a1a2e; --muted:#5a5a72; --line:#e6e6f0; --accent:#4f46e5; --bg:#fff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e8e8f0; --muted:#a0a0b8; --line:#2e2e42; --accent:#8b85f5; --bg:#141420; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 44rem; padding: 4rem 1.5rem 6rem;
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--fg); background: var(--bg); -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  h1 { font-size: 2rem; letter-spacing: -.5px; margin: 0 0 .4rem; }
+  h2 { font-size: 1.15rem; margin: 2.6rem 0 .7rem; letter-spacing: -.2px; }
+  .updated { color: var(--muted); font-size: .9rem; margin-bottom: 2.4rem; }
+  .lede {
+    border-left: 3px solid var(--accent); padding: .2rem 0 .2rem 1.1rem;
+    font-size: 1.06rem; margin: 0 0 2rem;
+  }
+  ul { padding-left: 1.2rem; }
+  li { margin: .35rem 0; }
+  code {
+    background: rgba(127,127,150,.14); padding: .12em .4em; border-radius: 4px;
+    font-size: .88em; font-family: ui-monospace, Menlo, monospace;
+  }
+  footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+           color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<div class="updated">Sweep — Bulk Delete Email by Sender for Gmail · Last updated 11 August 2026</div>
+
+<p class="lede">
+  Sweep does not collect, store, transmit, share or sell any of your data. It makes no
+  network requests. There is no server, no account and no analytics.
+</p>
+
+<h2>What Sweep does with your email</h2>
+<p>
+  Sweep reads two things from the Gmail page you already have open: the sender's address on
+  the message you are viewing, and the "1–50 of 1,234" counter Gmail displays above your
+  message list. The sender address is used immediately to build a Gmail search, and the
+  counter is used to label a second set of pagination arrows.
+</p>
+<p>
+  Neither value is stored, logged or sent anywhere. Nothing else is read — not the subject,
+  body, attachments, recipients or contacts of any message.
+</p>
+
+<h2>What Sweep stores</h2>
+<p>
+  One thing: your filter preferences — the age limit, size limit, read state, and whether to
+  keep starred or important mail. These are saved with <code>chrome.storage.local</code> on
+  your own computer so you don't have to set them again on every cleanup.
+</p>
+<p>
+  This is local storage only. It is never synced to a Google account, never leaves the
+  device, and contains no email data. Uninstalling the extension removes it.
+</p>
+
+<h2>What Sweep sends</h2>
+<p>
+  Nothing. The extension contains no code that opens a network connection. You can confirm
+  this yourself — the entire extension is one readable file:
+</p>
+<ul>
+  <li>No <code>fetch</code>, <code>XMLHttpRequest</code>, <code>WebSocket</code> or <code>sendBeacon</code> calls</li>
+  <li>No analytics, telemetry, crash reporting or error-tracking service</li>
+  <li>No third-party libraries, no remotely loaded code</li>
+  <li>No <code>host_permissions</code>, and no background service worker</li>
+</ul>
+
+<h2>Why there is no sign-in</h2>
+<p>
+  Sweep does not use the Gmail API and never asks for access to your Google account. It
+  works only with the Gmail page open in your browser, performing the same actions you could
+  perform yourself: typing in the search box, ticking the select-all checkbox. This is why
+  no OAuth consent screen ever appears, and why the extension has no technical means of
+  reading your mailbox when your browser is closed.
+</p>
+
+<h2>Permissions</h2>
+<ul>
+  <li><strong>storage</strong> — saves your filter preferences locally, as described above.</li>
+  <li><strong>Access to mail.google.com</strong> — required to add Sweep's controls to the
+      Gmail interface. The extension runs on no other website.</li>
+</ul>
+
+<h2>Deletion is yours</h2>
+<p>
+  Sweep never deletes anything. It selects messages and hands them to Gmail's own Delete
+  button, which you press. Deleted mail goes to Gmail's Trash and remains recoverable for 30
+  days. Sweep has no ability to permanently delete mail or empty the Trash.
+</p>
+
+<h2>Children</h2>
+<p>
+  Sweep is a general-purpose utility, collects no data from anyone, and is not directed at
+  children under 13.
+</p>
+
+<h2>Changes to this policy</h2>
+<p>
+  If the extension's data practices ever change, this page will be updated before the
+  change ships, and the "last updated" date above will change with it. The revision history
+  is public in the repository.
+</p>
+
+<h2>Contact</h2>
+<p>
+  Questions: <a href="mailto:pekhota.alex@gmail.com">pekhota.alex@gmail.com</a><br>
+  Source code and issue tracker:
+  <a href="https://github.com/pekhota/sweep-for-gmail">github.com/pekhota/sweep-for-gmail</a>
+</p>
+
+<footer>
+  <a href="./">← Sweep</a> · Gmail is a trademark of Google LLC. Sweep is an independent
+  project and is not affiliated with, endorsed by, or sponsored by Google.
+</footer>
+
+</body>
+</html>

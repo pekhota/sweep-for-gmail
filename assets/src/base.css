@@ -1,0 +1,317 @@
+/* Shared styling for Sweep's Chrome Web Store artwork.
+   Rendered headless at exact pixel sizes — see tools/make_assets.sh.
+   Every sender, subject and figure below is invented. No real mail is ever shown. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Google Sans", Roboto, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.frame {
+  width: 1280px;
+  height: 800px;
+  background: linear-gradient(150deg, #eef0fe 0%, #f7f8fd 55%, #eceafe 100%);
+  padding: 52px 64px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- caption band ---------- */
+
+.caption { margin-bottom: 34px; }
+
+.caption h1 {
+  font-size: 44px;
+  line-height: 1.14;
+  font-weight: 700;
+  letter-spacing: -0.9px;
+  color: #1a1a2e;
+}
+
+.caption h1 em { font-style: normal; color: #4f46e5; }
+
+.caption p {
+  margin-top: 12px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: #5a5a72;
+  font-weight: 400;
+  max-width: 900px;
+}
+
+/* ---------- window chrome ---------- */
+
+.window {
+  flex: 1;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(31, 30, 90, .17), 0 2px 8px rgba(31, 30, 90, .07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.titlebar {
+  height: 34px;
+  background: #f1f3f4;
+  border-bottom: 1px solid #e3e5e8;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 7px;
+  flex: none;
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #febc2e; }
+.dot.g { background: #28c840; }
+
+.titlebar .url {
+  margin-left: 14px;
+  background: #fff;
+  border: 1px solid #e3e5e8;
+  border-radius: 11px;
+  height: 21px;
+  padding: 0 12px;
+  font-size: 11px;
+  color: #80868b;
+  display: flex;
+  align-items: center;
+  min-width: 260px;
+}
+
+/* ---------- gmail mock ---------- */
+
+.gmail { flex: 1; display: flex; min-height: 0; }
+
+.sidebar {
+  width: 176px;
+  flex: none;
+  padding: 16px 0 0 8px;
+  border-right: 1px solid #f1f1f3;
+  background: #fff;
+}
+
+.compose {
+  margin: 0 12px 16px 8px;
+  height: 42px;
+  border-radius: 21px;
+  background: #c2e7ff;
+  color: #001d35;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.nav-item {
+  height: 30px;
+  border-radius: 0 15px 15px 0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px 0 18px;
+  font-size: 13px;
+  color: #444746;
+  gap: 12px;
+}
+
+.nav-item.on { background: #d3e3fd; color: #001d35; font-weight: 700; }
+.nav-item .count { margin-left: auto; font-size: 11px; font-weight: 700; }
+.nav-item .ico { width: 15px; height: 15px; border-radius: 3px; background: #dadce0; flex: none; }
+.nav-item.on .ico { background: #0b57d0; }
+
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #fff; }
+
+.toolbar {
+  height: 46px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f1f1f3;
+}
+
+.tb-ico { width: 17px; height: 17px; border-radius: 3px; background: #dadce0; flex: none; }
+.tb-check { width: 15px; height: 15px; border: 2px solid #5f6368; border-radius: 2px; flex: none; }
+.tb-spacer { flex: 1; }
+.tb-range { font-size: 12px; color: #5f6368; }
+
+/* Sweep's own split button. The group is the positioning context so callouts and the
+   highlight ring attach to the real button instead of hand-guessed coordinates. */
+.sweep-group { display: inline-flex; position: relative; border-radius: 16px; }
+.sweep-group.spot { box-shadow: 0 0 0 4px rgba(79, 70, 229, .20); }
+.sweep-group > .callout { top: calc(100% + 15px); left: 0; }
+
+.sweep-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  border: 1px solid #dadce0;
+  border-radius: 15px 0 0 15px;
+  padding: 0 11px 0 12px;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3c4043;
+  background: #fff;
+}
+
+.sweep-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 27px;
+  border: 1px solid #dadce0;
+  border-left: none;
+  border-radius: 0 15px 15px 0;
+  background: #fff;
+}
+
+.sweep-btn.lit, .sweep-caret.lit { background: #e8f0fe; border-color: #d2e3fc; color: #1967d2; }
+
+.sweep-btn svg { display: block; }
+
+/* rows */
+.rows { flex: 1; overflow: hidden; }
+
+.row {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f6f6f8;
+  font-size: 13px;
+}
+
+.row .cb {
+  width: 15px; height: 15px; border: 2px solid #5f6368; border-radius: 2px; flex: none;
+}
+.row.sel { background: #c2dbff; }
+.row.sel .cb { background: #0b57d0; border-color: #0b57d0; position: relative; }
+.row.sel .cb::after {
+  content: ""; position: absolute; left: 3px; top: 0px; width: 4px; height: 8px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(43deg);
+}
+.row .star { color: #dadce0; font-size: 14px; flex: none; }
+.row .who { width: 148px; flex: none; font-weight: 700; color: #202124; overflow: hidden;
+  white-space: nowrap; text-overflow: ellipsis; }
+.row .subj { flex: 1; color: #202124; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.row .subj span { color: #5f6368; font-weight: 400; }
+.row .date { flex: none; color: #202124; font-size: 12px; font-weight: 700; }
+
+/* Gmail's own "select all matching" banner */
+.banner {
+  background: #f8fafd;
+  border-bottom: 1px solid #f1f1f3;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #202124;
+  text-align: center;
+}
+.banner a { color: #0b57d0; text-decoration: none; font-weight: 500; }
+
+/* list footer + Sweep's mirrored pager */
+.footer {
+  border-top: 1px solid #f1f1f3;
+  padding: 10px 16px 14px;
+  text-align: center;
+  flex: none;
+}
+.sweep-pager {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #5f6368;
+  padding-bottom: 8px;
+}
+.sweep-pager .chev {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; color: #5f6368;
+}
+.sweep-pager .chev.off { opacity: .35; }
+.footer .legal { font-size: 11px; color: #9aa0a6; }
+
+/* ---------- callout ---------- */
+
+.callout {
+  position: absolute;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 15px;
+  border-radius: 9px;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, .34);
+  white-space: nowrap;
+}
+.callout::after {
+  content: "";
+  position: absolute;
+  border: 7px solid transparent;
+}
+.callout.up::after { border-bottom-color: #4f46e5; top: -14px; left: 22px; }
+.callout.down::after { border-top-color: #4f46e5; bottom: -14px; left: 22px; }
+.callout.left::after { border-right-color: #4f46e5; left: -14px; top: 11px; }
+
+.ring {
+  position: absolute;
+  border: 2.5px solid #4f46e5;
+  border-radius: 18px;
+  box-shadow: 0 0 0 5px rgba(79, 70, 229, .13);
+}
+
+/* ---------- Sweep's filter panel ---------- */
+
+.panel {
+  position: absolute;
+  width: 300px;
+  background: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgba(31, 30, 90, .24);
+  padding: 14px;
+}
+.panel h2 { font-size: 14px; font-weight: 500; color: #202124; }
+.panel .sub { font-size: 12px; color: #5f6368; margin: 3px 0 12px; }
+.panel label.f { display: block; margin-bottom: 9px; }
+.panel label.f > span {
+  display: block; font-size: 10px; letter-spacing: .5px; text-transform: uppercase;
+  color: #5f6368; margin-bottom: 4px;
+}
+.panel .field {
+  height: 30px; border: 1px solid #dadce0; border-radius: 6px; font-size: 12.5px;
+  color: #202124; display: flex; align-items: center; padding: 0 9px;
+}
+.panel .field::after { content: "▾"; margin-left: auto; color: #5f6368; font-size: 10px; }
+.panel .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.panel .checks { display: grid; gap: 6px; margin: 4px 0 11px; }
+.panel .checks div { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #202124; }
+.panel .box { width: 13px; height: 13px; border: 1.5px solid #5f6368; border-radius: 2px; flex: none; }
+.panel .box.on { background: #1a73e8; border-color: #1a73e8; position: relative; }
+.panel .box.on::after {
+  content: ""; position: absolute; left: 3.5px; top: 0.5px; width: 3px; height: 7px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(43deg);
+}
+.panel .query {
+  background: #f1f3f4; border-radius: 6px; padding: 8px 10px; margin-bottom: 11px;
+  font-family: "Roboto Mono", Menlo, monospace; font-size: 11px; color: #202124;
+  line-height: 1.5; word-break: break-all;
+}
+.panel .actions { display: flex; gap: 8px; }
+.panel .btn {
+  height: 32px; border-radius: 16px; border: 1px solid #dadce0; font-size: 12.5px;
+  font-weight: 500; color: #3c4043; display: flex; align-items: center;
+  justify-content: center; padding: 0 14px;
+}
+.panel .btn.primary { background: #1a73e8; border-color: #1a73e8; color: #fff; flex: 1; }

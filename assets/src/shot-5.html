@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="base.css">
+<title>Sweep — screenshot 5</title>
+<style>
+  .cards { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-content: start; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: 0 14px 36px rgba(31, 30, 90, .11), 0 1px 4px rgba(31, 30, 90, .06);
+  }
+  .card .tick {
+    width: 34px; height: 34px; border-radius: 9px; background: #ecebfe; color: #4f46e5;
+    display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .card h3 { font-size: 18px; color: #1a1a2e; font-weight: 700; letter-spacing: -.2px; }
+  .card p { font-size: 14px; color: #5a5a72; line-height: 1.6; margin-top: 7px; }
+  .card.wide { grid-column: 1 / -1; display: flex; align-items: center; gap: 22px; padding: 22px 28px; }
+  .card.wide .tick { margin-bottom: 0; flex: none; }
+  .card.wide h3 { font-size: 17px; }
+</style>
+
+<div class="frame">
+  <div class="caption">
+    <h1>No account. No sign-in. <em>Nothing leaves your browser.</em></h1>
+    <p>Sweep never asks for inbox access, because it never needs it — everything happens on the page in front of you.</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="tick">✓</div>
+      <h3>No OAuth, no inbox access</h3>
+      <p>Other cleanup tools connect to your mailbox on a server somewhere. Sweep can't — it has no server and asks for no account.</p>
+    </div>
+
+    <div class="card">
+      <div class="tick">✓</div>
+      <h3>Zero network requests</h3>
+      <p>Your mail is never read, copied, uploaded or analysed. There is nowhere for it to go.</p>
+    </div>
+
+    <div class="card">
+      <div class="tick">✓</div>
+      <h3>One permission, for one thing</h3>
+      <p>Storage — used only to remember your filter choices between visits, on your own machine.</p>
+    </div>
+
+    <div class="card">
+      <div class="tick">✓</div>
+      <h3>Deletes go to Trash</h3>
+      <p>Gmail's own Delete button, so everything is recoverable for 30 days. Sweep never empties Trash.</p>
+    </div>
+
+    <div class="card wide">
+      <div class="tick">★</div>
+      <div>
+        <h3>Open source — read every line before you install it</h3>
+        <p style="margin-top:4px">github.com/pekhota/sweep-for-gmail</p>
+      </div>
+    </div>
+  </div>
+</div>
