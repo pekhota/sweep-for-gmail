@@ -17,6 +17,10 @@ const browserGlobals = {
   clearInterval: 'readonly',
   requestAnimationFrame: 'readonly',
   matchMedia: 'readonly',
+  HTMLInputElement: 'readonly',
+  HTMLSelectElement: 'readonly',
+  HTMLElement: 'readonly',
+  Element: 'readonly',
 };
 
 const nodeGlobals = {
@@ -59,6 +63,17 @@ export default [
       'no-async-promise-executor': 'error',
       'no-await-in-loop': 'off', // deliberate in the polling helpers
       'no-promise-executor-return': 'error',
+
+      // Complexity budget. Set at conventional limits, not at today's numbers, so the
+      // file cannot drift back toward the 20-branch DOM-probing functions it started with.
+      // IIFEs are exempt from max-lines-per-function: the module wrapper is not a unit.
+      complexity: ['error', 8],
+      'max-depth': ['error', 3],
+      'max-params': ['error', 4],
+      'max-lines-per-function': [
+        'error',
+        { max: 60, skipBlankLines: true, skipComments: true, IIFEs: false },
+      ],
 
       // Hygiene.
       'no-console': ['error', { allow: ['warn', 'error', 'debug'] }],

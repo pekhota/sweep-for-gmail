@@ -177,7 +177,8 @@ retrigger the observer that renders it.
 
 ```bash
 npm install                  # first time
-npm run check                # lint + format + syntax + validate — run before committing
+npm run check                # lint + format + types + syntax + validate — before committing
+npm run typecheck            # tsc --noEmit over JSDoc types (no build step, no TS files)
 npm run validate             # project invariants only (48 checks)
 python3 tools/make_icons.py  # regenerate icons
 ./tools/make_assets.sh       # render store artwork at exact pixel sizes
@@ -201,6 +202,25 @@ break without warning. Verify by hand:
 behaviour does not match the code, verify which build is loaded before debugging anything.
 
 ---
+
+## Complexity and types
+
+Two gates constrain how `content.js` may grow:
+
+- **Complexity budget** (ESLint): cyclomatic complexity ≤ 8, nesting depth ≤ 3, functions
+  ≤ 60 lines, ≤ 4 parameters. The module IIFE is exempt from the line limit — it is a
+  wrapper, not a unit. Probing a hostile DOM is naturally branchy, so the pattern that
+  keeps within budget is **separate finding from parsing**: `rangeCandidates` /
+  `parseRange`, `findStorageCell` / `climbToFooterRow`.
+- **Type checking**: `jsconfig.json` runs `tsc --noEmit` with `checkJs` over JSDoc. There
+  is no TypeScript in the project and no build step — the shipped file stays plain,
+  readable JS. Use `/** @type {...} */ (expr)` casts where the DOM types are wider than
+  reality, and prefer narrowing over casting where you can.
+
+There is deliberately **no bundler**. The store listing sells "one readable file, no build
+step", and a reviewer can read the whole extension. That rules out module-per-layer
+architecture; the logic/DOM boundary is kept by convention instead — `buildQuery`,
+`parseRange` and `pageContext` are pure and must stay that way.
 
 ## Conventions
 

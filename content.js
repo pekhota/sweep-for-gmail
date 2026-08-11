@@ -15,8 +15,10 @@
 (() => {
   'use strict';
 
-  if (window.__sweepLoaded) return;
-  window.__sweepLoaded = true;
+  // A deliberate marker on window, so a double injection is a no-op.
+  const globalWindow = /** @type {any} */ (window);
+  if (globalWindow.__sweepLoaded) return;
+  globalWindow.__sweepLoaded = true;
 
   const STORAGE_KEY = 'sweep:filters';
 
@@ -73,10 +75,16 @@
       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
     );
 
+  /**
+   * Saved filter preferences, or null. Anything non-object on disk is discarded rather
+   * than spread into the panel state.
+   * @returns {Promise<Record<string, unknown> | null>}
+   */
   async function loadFilters() {
     try {
       const stored = await chrome.storage.local.get(STORAGE_KEY);
-      return stored?.[STORAGE_KEY] || null;
+      const saved = stored?.[STORAGE_KEY];
+      return saved && typeof saved === 'object' ? /** @type {Record<string, unknown>} */ (saved) : null;
     } catch {
       return null;
     }
@@ -109,46 +117,56 @@
     return match ? match[0].toLowerCase() : null;
   }
 
+  /** Every sender in the open thread, oldest first, duplicates included. */
+  function messageSenders() {
+    return messageEls()
+      .map((msg) => msg.querySelector('span[email]'))
+      .filter(Boolean)
+      .map((span) => {
+        const email = (span.getAttribute('email') || '').trim().toLowerCase();
+        const name = (span.getAttribute('name') || span.textContent || '').trim();
+        return { email, name: name || email };
+      })
+      .filter((sender) => sender.email);
+  }
+
   /** Distinct senders in the open thread, newest first, own address last. */
   function threadSenders() {
     const me = selfEmail();
-    const found = [];
+    const byEmail = new Map();
 
-    for (const msg of messageEls()) {
-      const span = msg.querySelector('span[email]');
-      const email = (span?.getAttribute('email') || '').trim().toLowerCase();
-      if (!email) continue;
-      const name = (span.getAttribute('name') || span.textContent || '').trim() || email;
-      found.push({ email, name });
+    // Reversed so the newest message wins, and a Map keeps first-seen order.
+    for (const sender of messageSenders().reverse()) {
+      if (!byEmail.has(sender.email)) byEmail.set(sender.email, sender);
     }
 
-    const seen = new Set();
-    const unique = [];
-    for (const sender of found.reverse()) {
-      if (seen.has(sender.email)) continue;
-      seen.add(sender.email);
-      unique.push(sender);
-    }
-
-    unique.sort((a, b) => Number(a.email === me) - Number(b.email === me));
-    return unique;
+    return [...byEmail.values()].sort((a, b) => Number(a.email === me) - Number(b.email === me));
   }
 
   /* ------------------------------------------------------------------ *
    * Query building + navigation
    * ------------------------------------------------------------------ */
 
+  /**
+   * One entry per filter, each returning its Gmail search operator or null. Declarative
+   * rather than a chain of ifs so adding a filter is a one-line change.
+   */
+  const QUERY_TERMS = [
+    (s) => `from:${s.sender}`,
+    (s) => (s.age ? `older_than:${s.age}` : null),
+    (s) => (s.read === 'unread' ? 'is:unread' : null),
+    (s) => (s.read === 'read' ? 'is:read' : null),
+    (s) => (s.attachment ? 'has:attachment' : null),
+    (s) => (s.size ? `larger:${s.size}` : null),
+    (s) => (s.inboxOnly ? 'in:inbox' : null),
+    (s) => (s.skipStarred ? '-is:starred' : null),
+    (s) => (s.skipImportant ? '-is:important' : null),
+  ];
+
   function buildQuery(state) {
-    const parts = [`from:${state.sender}`];
-    if (state.age) parts.push(`older_than:${state.age}`);
-    if (state.read === 'unread') parts.push('is:unread');
-    if (state.read === 'read') parts.push('is:read');
-    if (state.attachment) parts.push('has:attachment');
-    if (state.size) parts.push(`larger:${state.size}`);
-    if (state.inboxOnly) parts.push('in:inbox');
-    if (state.skipStarred) parts.push('-is:starred');
-    if (state.skipImportant) parts.push('-is:important');
-    return parts.join(' ');
+    return QUERY_TERMS.map((term) => term(state))
+      .filter(Boolean)
+      .join(' ');
   }
 
   /** Hash-only navigation keeps the /mail/u/N/ account index intact. */
@@ -370,6 +388,9 @@
     skipImportant: false,
   };
 
+  // Must match `.panel { width }` in SHADOW_CSS.
+  const PANEL_WIDTH = 330;
+
   let panel = null;
   let panelOpening = false;
   let panelState = { ...DEFAULT_FILTERS, sender: '' };
@@ -417,34 +438,22 @@
     }
   }
 
-  async function buildPanel(anchorEl) {
-    const senders = threadSenders();
-    if (!senders.length) {
-      warn("couldn't read the sender of the open conversation");
-      return;
-    }
+  /** The panel's markup. Split out so buildPanel stays about wiring, not templating. */
+  function panelMarkup(senders) {
+    const senderOptions = senders
+      .map((s) => {
+        const label = s.name === s.email ? s.email : `${s.name} · ${s.email}`;
+        return `<option value="${escapeHtml(s.email)}">${escapeHtml(label)}</option>`;
+      })
+      .join('');
 
-    const saved = await loadFilters();
-    panelState = { ...DEFAULT_FILTERS, ...(saved || {}), sender: senders[0].email };
-
-    panel = document.createElement('div');
-    panel.className = 'panel';
-    panel.innerHTML = `
+    return `
       <h2>Find similar emails</h2>
       <div class="sub">Everything from one sender, narrowed down.</div>
 
       <label class="row">
         <span>Sender</span>
-        <select data-field="sender">
-          ${senders
-            .map(
-              (s) =>
-                `<option value="${escapeHtml(s.email)}">${escapeHtml(
-                  s.name === s.email ? s.email : `${s.name} · ${s.email}`
-                )}</option>`
-            )
-            .join('')}
-        </select>
+        <select data-field="sender">${senderOptions}</select>
       </label>
 
       <div class="grid">
@@ -494,13 +503,72 @@
         <button class="primary" data-act="select">Search &amp; select all</button>
       </div>
     `;
+  }
 
-    // Reflect saved state into the controls.
-    for (const el of panel.querySelectorAll('[data-field]')) {
-      const field = el.dataset.field;
-      if (el.type === 'checkbox') el.checked = Boolean(panelState[field]);
-      else el.value = panelState[field] ?? '';
+  /** Copy the saved filter state into the rendered controls. */
+  function applyPanelState(root) {
+    for (const el of root.querySelectorAll('[data-field]')) {
+      const control = /** @type {HTMLInputElement | HTMLSelectElement} */ (el);
+      const field = control.dataset.field;
+      if (control instanceof HTMLInputElement && control.type === 'checkbox') {
+        control.checked = Boolean(panelState[field]);
+      } else {
+        control.value = panelState[field] ?? '';
+      }
     }
+  }
+
+  function wirePanel(root, refresh) {
+    root.addEventListener('change', (event) => {
+      const target = /** @type {Element | null} */ (event.target);
+      const control = /** @type {HTMLInputElement | HTMLSelectElement | null} */ (
+        target?.closest('[data-field]')
+      );
+      if (!control) return;
+
+      const isCheckbox = control instanceof HTMLInputElement && control.type === 'checkbox';
+      panelState[control.dataset.field] = isCheckbox ? control.checked : control.value;
+      refresh();
+
+      // `sender` is re-read from the open email every time, so it is never persisted.
+      const { sender, ...filters } = panelState;
+      saveFilters(filters);
+    });
+
+    root.addEventListener('click', async (event) => {
+      const target = /** @type {Element | null} */ (event.target);
+      const btn = /** @type {HTMLElement | null} */ (target?.closest('[data-act]'));
+      if (!btn) return;
+
+      const query = buildQuery(panelState);
+      closePanel();
+      gotoSearch(query);
+      if (btn.dataset.act === 'select') await runSelectFlow(query);
+    });
+  }
+
+  /** Anchor under the whole split button, nudged back inside the viewport. */
+  function positionPanel(root, anchorEl) {
+    const rect = (anchorEl.closest('.sw-split') || anchorEl).getBoundingClientRect();
+    root.style.top = `${Math.round(rect.bottom + 8)}px`;
+    root.style.left = `${Math.round(Math.min(rect.left, window.innerWidth - PANEL_WIDTH - 16))}px`;
+  }
+
+  async function buildPanel(anchorEl) {
+    const senders = threadSenders();
+    if (!senders.length) {
+      warn("couldn't read the sender of the open conversation");
+      return;
+    }
+
+    const saved = await loadFilters();
+    panelState = { ...DEFAULT_FILTERS, ...(saved || {}), sender: senders[0].email };
+
+    panel = document.createElement('div');
+    panel.className = 'panel';
+    panel.innerHTML = panelMarkup(senders);
+
+    applyPanelState(panel);
 
     const queryEl = panel.querySelector('.query');
     const refresh = () => {
@@ -508,28 +576,8 @@
     };
     refresh();
 
-    panel.addEventListener('change', (event) => {
-      const el = event.target.closest('[data-field]');
-      if (!el) return;
-      panelState[el.dataset.field] = el.type === 'checkbox' ? el.checked : el.value;
-      refresh();
-      const { sender, ...filters } = panelState;
-      saveFilters(filters);
-    });
-
-    panel.addEventListener('click', async (event) => {
-      const btn = event.target.closest('[data-act]');
-      if (!btn) return;
-      const query = buildQuery(panelState);
-      closePanel();
-      gotoSearch(query);
-      if (btn.dataset.act === 'select') await runSelectFlow(query);
-    });
-
-    // Anchor under the whole split button, nudged inside the viewport.
-    const rect = (anchorEl.closest('.sw-split') || anchorEl).getBoundingClientRect();
-    panel.style.top = `${Math.round(rect.bottom + 8)}px`;
-    panel.style.left = `${Math.round(Math.min(rect.left, window.innerWidth - 330 - 16))}px`;
+    wirePanel(panel, refresh);
+    positionPanel(panel, anchorEl);
 
     shadow.append(panel);
     anchorEl.setAttribute('aria-expanded', 'true');
@@ -546,7 +594,7 @@
     const ready = await waitFor(
       () => {
         if (isThreadOpen()) return null;
-        const box = document.querySelector('input[name="q"]');
+        const box = /** @type {HTMLInputElement | null} */ (document.querySelector('input[name="q"]'));
         if (box && box.value && !box.value.includes(key)) return null;
         return true;
       },
@@ -683,35 +731,40 @@
    * match on the whole text of the smallest element that reads like a range. Digits only,
    * so the UI language doesn't matter.
    */
-  function readRange() {
+  /**
+   * Candidate readouts, visible ones only — Gmail leaves stale, off-layout copies of its
+   * readouts in the DOM, and those carry the right text at zero size.
+   */
+  function rangeCandidates() {
     // Gmail keeps the range readout in the *top* bar (`gh="tm"`), not the list toolbar
     // (`gh="mtb"`) — searching only the latter finds nothing.
     const scopes = [...document.querySelectorAll('div[gh="tm"], div[gh="mtb"]')];
-    if (!scopes.length) return null;
 
+    return scopes
+      .flatMap((scope) => [...scope.querySelectorAll('div, span')])
+      .filter(isVisible)
+      .map((el) => ({ text: (el.textContent || '').replace(/\s+/g, ' ').trim(), el }))
+      .filter(({ text }) => text.length > 0 && text.length <= 40 && RANGE_RE.test(text));
+  }
+
+  /** "1–50 of 1,234" → `{ end: 50, total: 1234 }`. Locale separators are stripped. */
+  function parseRange(text) {
+    const numbers = (text.match(/\d[\d.,  ]*/g) || []).map((n) => Number(n.replace(/\D/g, '')));
+    const [, end, total] = numbers;
+    const atEnd = Number.isFinite(end) && Number.isFinite(total) && end >= total;
+    return { text, end, total, atEnd };
+  }
+
+  function readRange() {
     // Prefer the *longest* match, not the smallest element: Gmail nests a bare "1–25"
     // inside the full "1–25 of many", and the inner one loses the total.
-    let best = null;
-    let bestSize = Infinity;
-    for (const el of scopes.flatMap((s) => [...s.querySelectorAll('div, span')])) {
-      const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
-      if (!text || text.length > 40 || !RANGE_RE.test(text)) continue;
-      // Gmail leaves stale, off-layout copies of its readouts around; only trust one
-      // that is actually on screen.
-      if (!el.getBoundingClientRect().width) continue;
-      const size = el.getElementsByTagName('*').length;
-      if (!best || text.length > best.length || (text.length === best.length && size < bestSize)) {
-        best = text;
-        bestSize = size;
-      }
-    }
-    if (!best) return null;
+    const best = rangeCandidates().sort(
+      (a, b) =>
+        b.text.length - a.text.length ||
+        a.el.getElementsByTagName('*').length - b.el.getElementsByTagName('*').length
+    )[0];
 
-    // "1–50 of 1,234" → [1, 50, 1234]. Thousands separators vary by locale, so strip
-    // anything that isn't a digit inside each run.
-    const numbers = (best.match(/\d[\d.,  ]*/g) || []).map((n) => Number(n.replace(/\D/g, '')));
-    const [, end, total] = numbers;
-    return { text: best, end, total, atEnd: Number.isFinite(end) && Number.isFinite(total) && end >= total };
+    return best ? parseRange(best.text) : null;
   }
 
   /**
@@ -722,6 +775,9 @@
    * language), then climbing to the wide row that holds all three. The pager goes
    * immediately above this row, centred, which is where a second pager belongs.
    */
+  // The footer row spans the message list; anything narrower is an inner cell.
+  const FOOTER_MIN_WIDTH = 600;
+
   let cachedFooter = null;
 
   const isVisible = (el) => !!el && el.getBoundingClientRect().width > 0;
@@ -733,35 +789,41 @@
     // hidden container, rendering at zero size.
     if (cachedFooter?.isConnected && isVisible(cachedFooter)) return cachedFooter;
 
-    const SIZE = /\d[\d.,]*\s*[KMGT]B\b/i;
-    let storage = null;
-
-    for (const el of document.querySelectorAll('div, span')) {
-      const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
-      if (!text || text.length > 60 || !SIZE.test(text)) continue;
-
-      // A percentage, or two sizes ("1.2 GB of 15 GB") — otherwise it's some other
-      // element that merely mentions a file size.
-      const units = (text.match(/[KMGT]B\b/gi) || []).length;
-      if (!text.includes('%') && units < 2) continue;
-
-      const rect = el.getBoundingClientRect();
-      if (rect.width < 40 || rect.left < 200) continue; // content column, not the nav
-      if (el.children.length > 2) continue; // innermost wrapper only
-
-      storage = el;
-      break;
-    }
+    const storage = findStorageCell();
     if (!storage) return null;
 
-    let row = storage;
+    const row = climbToFooterRow(storage);
+    cachedFooter = row && row.getBoundingClientRect().width >= FOOTER_MIN_WIDTH ? row : null;
+    return cachedFooter;
+  }
+
+  /** Reads like a storage meter: a percentage, or two sizes ("1.2 GB of 15 GB"). */
+  function looksLikeStorageText(text) {
+    if (!text || text.length > 60 || !/\d[\d.,]*\s*[KMGT]B\b/i.test(text)) return false;
+    const units = (text.match(/[KMGT]B\b/gi) || []).length;
+    return text.includes('%') || units >= 2;
+  }
+
+  /** The innermost visible element in the content column holding the storage meter. */
+  function findStorageCell() {
+    return (
+      [...document.querySelectorAll('div, span')].find((el) => {
+        if (el.children.length > 2) return false; // innermost wrapper only
+        if (!looksLikeStorageText((el.textContent || '').replace(/\s+/g, ' ').trim())) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.width >= 40 && rect.left >= 200; // content column, not the nav
+      }) || null
+    );
+  }
+
+  /** Walk up to the row spanning the list, without escaping as far as the whole pane. */
+  function climbToFooterRow(el) {
+    let row = el;
     for (let i = 0; i < 6 && row.parentElement; i++) {
-      if (row.getBoundingClientRect().width >= 600) break;
+      if (row.getBoundingClientRect().width >= FOOTER_MIN_WIDTH) break;
       row = row.parentElement;
     }
-
-    cachedFooter = row.getBoundingClientRect().width >= 600 ? row : null;
-    return cachedFooter;
+    return row;
   }
 
   /** A sidebar label row — the one element whose colour reliably reflects the theme. */
@@ -875,7 +937,8 @@
         <button data-page="next" aria-label="Older page" title="Older">${chevron('M9 5l7 7-7 7')}</button>
       `;
       pager.addEventListener('click', (event) => {
-        const btn = event.target.closest('button[data-page]');
+        const target = /** @type {Element | null} */ (event.target);
+        const btn = /** @type {HTMLButtonElement | null} */ (target?.closest('button[data-page]'));
         if (!btn || btn.disabled) return;
         const { page: current } = pageContext();
         gotoPage(btn.dataset.page === 'prev' ? current - 1 : current + 1);
@@ -918,7 +981,8 @@
     (event) => {
       if (!panel) return;
       if (event.target === host || event.composedPath().includes(host)) return;
-      if (event.target.closest?.('.sw-toolbar-btn')) return;
+      const clicked = /** @type {Element | null} */ (event.target);
+      if (clicked?.closest?.('.sw-toolbar-btn')) return;
       closePanel();
     },
     true

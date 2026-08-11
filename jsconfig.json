@@ -1,0 +1,19 @@
+{
+  "//": "Type-checks plain JS via JSDoc. There is no TypeScript in this project and no build step \u2014 tsc runs with --noEmit purely as a linter. See npm run typecheck.",
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": false,
+    "noImplicitAny": false,
+    "types": ["chrome", "node"],
+    "skipLibCheck": true,
+    "maxNodeModuleJsDepth": 0
+  },
+  "include": ["content.js", "tools/**/*.mjs"],
+  "exclude": ["node_modules", "dist", "docs", "assets"]
+}

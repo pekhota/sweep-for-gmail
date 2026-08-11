@@ -17,11 +17,15 @@
     "syntax": "node --check content.js",
     "validate": "node tools/validate.mjs",
     "package": "./tools/package.sh",
-    "check": "npm run lint && npm run format:check && npm run syntax && npm run validate"
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run syntax && npm run validate",
+    "typecheck": "tsc -p jsconfig.json"
   },
   "devDependencies": {
+    "@types/chrome": "^0.2.5",
+    "@types/node": "^26.2.0",
     "eslint": "^10.8.1",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=20"
