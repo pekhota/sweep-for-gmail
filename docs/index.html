@@ -59,6 +59,7 @@
     box-shadow: 0 10px 26px rgba(79,70,229,.32);
   }
   .trust { margin-top: 1.4rem; color: var(--muted); font-size: .92rem; }
+  .trust.pending { margin-top: 1.1rem; margin-bottom: -.6rem; color: var(--accent); font-weight: 500; }
 
   .shot { margin: 1rem auto 0; max-width: 58rem; }
   .shot img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line);
@@ -114,10 +115,13 @@
       Four years of a newsletter you never opened, gone. Sweep finds every message from a
       sender and selects the lot — then you press Delete.
     </p>
+    <!-- STORE LINK: once the Chrome Web Store listing is live, change this href to the
+         store URL and the label back to "Add to Chrome — free", then drop .pending below. -->
     <div class="cta">
-      <a class="btn primary" href="#" id="cws">Add to Chrome — free</a>
+      <a class="btn primary" href="https://github.com/pekhota/sweep-for-gmail#install" id="cws">Install from source</a>
       <a class="btn" href="https://github.com/pekhota/sweep-for-gmail">View source</a>
     </div>
+    <p class="trust pending">Chrome Web Store listing in review · takes about a minute to install meanwhile</p>
     <p class="trust">No sign-in · No inbox access · No data collected · Open source</p>
   </div>
 
