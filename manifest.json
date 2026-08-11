@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Similar & Purge for Gmail",
+  "version": "1.0.0",
+  "description": "Find every email from the sender you're reading, narrow it down by age, read state or size, and get the whole batch selected and ready to delete.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
