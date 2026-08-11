@@ -724,8 +724,14 @@
    */
   let cachedFooter = null;
 
+  const isVisible = (el) => !!el && el.getBoundingClientRect().width > 0;
+
   function listFooter() {
-    if (cachedFooter?.isConnected) return cachedFooter;
+    // `isConnected` is not enough. Gmail keeps one list container per view and hides the
+    // inactive ones rather than removing them, so a cached footer from a previous view
+    // stays "connected" while being invisible — and the pager gets re-inserted into the
+    // hidden container, rendering at zero size.
+    if (cachedFooter?.isConnected && isVisible(cachedFooter)) return cachedFooter;
 
     const SIZE = /\d[\d.,]*\s*[KMGT]B\b/i;
     let storage = null;
@@ -762,7 +768,9 @@
   let cachedColumn = null;
 
   function sidebarColumn() {
-    if (cachedColumn?.isConnected) return cachedColumn;
+    // Same trap as listFooter: a detached-but-connected element still answers queries,
+    // and a hidden one would yield a useless colour probe.
+    if (cachedColumn?.isConnected && isVisible(cachedColumn)) return cachedColumn;
 
     cachedColumn =
       [...document.querySelectorAll('div')].find((el) => {

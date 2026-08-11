@@ -102,6 +102,13 @@ DOM, some positioned far outside the viewport with default browser styling (unst
 compute to `rgb(0,0,238)`). Always filter on `getBoundingClientRect().width > 0` before
 trusting an element you found by text.
 
+**Views are hidden, not removed.** Gmail keeps a separate list container per view
+(inbox, each label, each search) and hides the inactive ones instead of unmounting them. A
+node cached from a previous view therefore still reports `isConnected === true` while being
+invisible — anything inserted into it renders at zero size. **Never cache a Gmail element
+on `isConnected` alone**; require a non-zero `getBoundingClientRect().width` too. This is
+the same family as the stale-copies trap above and has caused a regression once already.
+
 **The toolbar stops event propagation.** A listener bound to an injected button may never
 fire. Activation is delegated from `document` in the **capture** phase, which runs before
 anything Gmail bound further down the tree. Do not "simplify" this back to a direct
