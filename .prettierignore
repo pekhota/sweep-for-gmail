@@ -1,0 +1,9 @@
+dist/
+node_modules/
+assets/
+icons/
+docs/*.png
+package-lock.json
+
+# Rendered to pixel-exact store artwork — reformatting could shift the layout.
+*.html

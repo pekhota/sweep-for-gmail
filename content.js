@@ -24,7 +24,10 @@
    * Small helpers
    * ------------------------------------------------------------------ */
 
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const sleep = (ms) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
 
   /** Poll `fn` until it returns something truthy, or give up. */
   async function waitFor(fn, { timeout = 8000, interval = 120 } = {}) {
@@ -65,7 +68,10 @@
   }
 
   const escapeHtml = (s) =>
-    String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    String(s).replace(
+      /[&<>"']/g,
+      (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+    );
 
   async function loadFilters() {
     try {
@@ -365,6 +371,7 @@
   };
 
   let panel = null;
+  let panelOpening = false;
   let panelState = { ...DEFAULT_FILTERS, sender: '' };
 
   function closePanel() {
@@ -386,12 +393,31 @@
     await runSelectFlow(query);
   }
 
+  /**
+   * The `panel` check and the assignment are separated by an await, so two quick clicks
+   * could both get past it and build two panels — orphaning the first inside the shadow
+   * root with no reference left to remove it. The flag is set synchronously to close that
+   * window.
+   */
   async function openPanel(anchorEl) {
     if (panel) {
       closePanel();
       return;
     }
+    if (panelOpening) return;
 
+    panelOpening = true;
+    try {
+      await buildPanel(anchorEl);
+    } finally {
+      // Writes a constant and never reads the previous value, so there is no
+      // lost-update to race over.
+      // eslint-disable-next-line require-atomic-updates
+      panelOpening = false;
+    }
+  }
+
+  async function buildPanel(anchorEl) {
     const senders = threadSenders();
     if (!senders.length) {
       warn("couldn't read the sender of the open conversation");

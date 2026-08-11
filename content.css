@@ -18,7 +18,11 @@
   border: 1px solid #dadce0;
   background: #fff;
   color: #3c4043;
-  font: 500 13px/1 "Google Sans", Roboto, Arial, sans-serif;
+  font:
+    500 13px/1 'Google Sans',
+    Roboto,
+    Arial,
+    sans-serif;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
@@ -58,7 +62,7 @@
   border-color: #d2d5d9;
 }
 
-.sw-toolbar-btn[aria-expanded="true"] {
+.sw-toolbar-btn[aria-expanded='true'] {
   background: #e8f0fe;
   border-color: #d2e3fc;
   color: #1967d2;
@@ -70,7 +74,7 @@
   width: 14px;
   height: 14px;
   flex: none;
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .sw-toolbar-btn:hover .sw-icon {
@@ -99,7 +103,7 @@
     background: #2d2e30;
   }
 
-  .sw-toolbar-btn[aria-expanded="true"] {
+  .sw-toolbar-btn[aria-expanded='true'] {
     background: #1f3a5f;
     border-color: #2c5282;
     color: #8ab4f8;

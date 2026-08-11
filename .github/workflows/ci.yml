@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Nothing here needs write access to the repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, format, validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Syntax
+        run: npm run syntax
+
+      # Store limits, icon dimensions, permission allowlist, the no-network promise,
+      # and listing/manifest consistency. See tools/validate.mjs.
+      - name: Project invariants
+        run: npm run validate
+
+  package:
+    name: Build store package
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: ./tools/package.sh
+
+      # A package that quietly grows extra files is a rejection waiting to happen, so the
+      # contents are asserted rather than eyeballed.
+      - name: Assert package contents
+        run: |
+          version=$(python3 -c 'import json;print(json.load(open("manifest.json"))["version"])')
+          actual=$(unzip -Z1 "dist/sweep-$version.zip" | grep -v '/$' | sort | tr '\n' ' ')
+          expected="content.css content.js icons/icon-128.png icons/icon-16.png icons/icon-48.png manifest.json "
+          echo "actual:   $actual"
+          echo "expected: $expected"
+          [ "$actual" = "$expected" ] || { echo "::error::package contents changed"; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sweep-extension
+          path: dist/*.zip
+          if-no-files-found: error

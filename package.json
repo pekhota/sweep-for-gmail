@@ -1,0 +1,29 @@
+{
+  "name": "sweep-for-gmail",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Delete every email from one sender in Gmail, in two clicks.",
+  "homepage": "https://pekhota.github.io/sweep-for-gmail/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pekhota/sweep-for-gmail.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "syntax": "node --check content.js",
+    "validate": "node tools/validate.mjs",
+    "package": "./tools/package.sh",
+    "check": "npm run lint && npm run format:check && npm run syntax && npm run validate"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

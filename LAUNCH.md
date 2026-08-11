@@ -3,7 +3,7 @@
 Everything below is written to be executed in order. Nothing here requires a budget.
 
 **Reality check first.** Most Chrome extensions die at ~50 installs because nobody ever
-sees them. Extensions that break out do it on the back of *one* thing: a specific, angry
+sees them. Extensions that break out do it on the back of _one_ thing: a specific, angry
 problem described in the words the sufferer already uses. Sweep has that — "how do I delete
 all emails from one sender in Gmail" is a question thousands of people type every month,
 and every existing answer is either 12 manual steps or "give this company access to your
@@ -17,9 +17,7 @@ Lead with that everywhere. Never lead with "I built an extension."
 
 - [ ] Create the GitHub repo `sweep-for-gmail`, push, and confirm the handle in every URL
       (`CHROMEWEBSTORE.md`, `docs/`, `assets/src/shot-5.html`)
-- [ ] Settings → Pages → source `main` / `/docs`. Confirm both pages load:
-      - `https://<you>.github.io/sweep-for-gmail/`
-      - `https://<you>.github.io/sweep-for-gmail/privacy.html`
+- [ ] Settings → Pages → source `main` / `/docs`. Confirm both pages load: - `https://<you>.github.io/sweep-for-gmail/` - `https://<you>.github.io/sweep-for-gmail/privacy.html`
 - [ ] Register at [chrome.google.com/webstore/devconsole](https://chrome.google.com/webstore/devconsole) — one-off $5 fee
 - [ ] Upload `dist/sweep-1.0.0.zip`, paste the fields from `CHROMEWEBSTORE.md`, upload the
       five screenshots and both promo tiles
@@ -37,18 +35,18 @@ Order matters. Each step feeds the next with social proof.
 
 ### Day 1 — Reddit, where the problem already lives
 
-This is your best channel by far, because people are *actively asking* this question. Search
+This is your best channel by far, because people are _actively asking_ this question. Search
 each subreddit for "delete all emails from sender" and answer the real threads first — old
 threads still rank in Google and send traffic for years.
 
-| Subreddit | Angle |
-|---|---|
-| r/gmail | The direct-fit audience. Post as a solution, not an ad. |
-| r/productivity | Angle: inbox zero without a subscription. |
-| r/chrome_extensions | Builders; they'll audit the code. Lead with open source. |
-| r/privacy | Angle: an inbox cleaner that can't read your inbox. Strong fit. |
-| r/degoogle | Same privacy angle, sharper. |
-| r/SideProject, r/InternetIsBeautiful | Generic launch audiences. |
+| Subreddit                            | Angle                                                           |
+| ------------------------------------ | --------------------------------------------------------------- |
+| r/gmail                              | The direct-fit audience. Post as a solution, not an ad.         |
+| r/productivity                       | Angle: inbox zero without a subscription.                       |
+| r/chrome_extensions                  | Builders; they'll audit the code. Lead with open source.        |
+| r/privacy                            | Angle: an inbox cleaner that can't read your inbox. Strong fit. |
+| r/degoogle                           | Same privacy angle, sharper.                                    |
+| r/SideProject, r/InternetIsBeautiful | Generic launch audiences.                                       |
 
 **Post template — adapt, don't paste verbatim, and always disclose you built it:**
 
@@ -61,7 +59,7 @@ threads still rank in Google and send traffic for years.
 > So I made it two clicks: open any email from them, hit "Similar", press Delete.
 >
 > The part I actually care about: it doesn't ask you to sign in with Google. Every other
-> inbox cleaner wants OAuth access to your whole mailbox, which for a *delete some emails*
+> inbox cleaner wants OAuth access to your whole mailbox, which for a _delete some emails_
 > tool has always felt insane to me. This one has no server, makes zero network requests,
 > and just drives the Gmail page you already have open. Source is public if you want to
 > check that claim.
@@ -85,7 +83,7 @@ Post 8–10am ET on a Tuesday–Thursday. First comment from you, immediately:
 > ~900 lines, one file, no dependencies. The fiddly parts were Gmail's obfuscated DOM and
 > the fact that themes are background images, so you can't detect dark mode.
 
-HN rewards technical honesty and punishes marketing tone. Talk about the *engineering*, and
+HN rewards technical honesty and punishes marketing tone. Talk about the _engineering_, and
 mention the limitations before anyone finds them.
 
 ### Day 3 — Product Hunt
@@ -98,7 +96,7 @@ mention the limitations before anyone finds them.
 ### Day 4–5 — Answer the question where it's asked
 
 Google "how to delete all emails from one sender gmail" and work down page one and two:
-Quora, Reddit, Google's own support forums, blog comment sections. Give the *manual*
+Quora, Reddit, Google's own support forums, blog comment sections. Give the _manual_
 answer first, in full, then mention you built a tool that does it in two clicks. Being
 genuinely useful first is what stops this reading as spam.
 
@@ -111,7 +109,7 @@ already ranking for the exact intent — you're borrowing their traffic permanen
 
 Chrome Web Store search is driven mostly by title, short description, and rating volume.
 
-- The title already carries the phrase people search: *Bulk Delete Email by Sender*
+- The title already carries the phrase people search: _Bulk Delete Email by Sender_
 - **Ratings are the flywheel.** After a successful cleanup is the moment of maximum
   goodwill. Consider a single, dismissable, once-ever prompt after a user's third sweep —
   nothing more aggressive than that.
@@ -131,7 +129,7 @@ One good article outranks a hundred forum posts over a year. Write these on the 
 site as `/blog/`:
 
 1. **"How to delete all emails from one sender in Gmail (2026)"** — the complete manual
-   method, honestly and thoroughly, then Sweep as the shortcut. This is *the* money page.
+   method, honestly and thoroughly, then Sweep as the shortcut. This is _the_ money page.
    Target the exact phrase; nail the intent.
 2. **"How to free up Gmail storage when you're at 15 GB"** — huge, panicked search volume.
    Sweep's size filter is the natural answer.
@@ -168,6 +166,6 @@ it's compounding through store search and you should invest in the content in Ph
 
 - Don't buy installs. It poisons your ratings and risks removal.
 - Don't spam subreddits with the same copy. One tailored post each, spaced out.
-- Don't add a paid tier before ~5,000 users. Free and frictionless *is* the growth strategy.
+- Don't add a paid tier before ~5,000 users. Free and frictionless _is_ the growth strategy.
 - Don't add analytics. "Zero network requests" is your strongest claim — keeping it
   literally true is worth more than any funnel data you'd get.
