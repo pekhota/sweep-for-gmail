@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an improvement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This tool does one thing on purpose, and staying narrow is a deliberate choice.
+        Suggestions that make the existing job better are much more likely to land than
+        ones that widen its scope.
+
+        Some things will never be added, because they would break promises made in the
+        published privacy policy: any network request, analytics of any kind, or a
+        permission beyond `storage`.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the situation you hit, not the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What did you have in mind?
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      options:
+        - label: This would not require any network request
+          required: true
+        - label: This would not require a new permission (or I have explained why it must)
+          required: true

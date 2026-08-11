@@ -214,6 +214,16 @@ check(
   `missing from docs/privacy.html: ${permissions.filter((p) => !privacyPage.includes(p)).join(', ')}`
 );
 
+for (const doc of ['CLAUDE.md', 'CONTRIBUTING.md', 'SECURITY.md', 'CHANGELOG.md', 'LICENSE']) {
+  check(`${doc} exists`, existsSync(join(ROOT, doc)));
+}
+
+check(
+  `CHANGELOG.md documents ${manifest.version}`,
+  read('CHANGELOG.md').includes(manifest.version),
+  'add a changelog entry when bumping the manifest version'
+);
+
 const landing = read('docs/index.html');
 check('landing page has no dead-end CTA', !/href="#"/.test(landing), 'a button links to "#"');
 

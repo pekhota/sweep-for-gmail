@@ -1,0 +1,62 @@
+name: Bug report
+description: Something is broken or behaving unexpectedly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: in `chrome://extensions`, click the **⟳ reload icon on the
+        extension card**, then hard-reload Gmail. A stale cached copy of the extension
+        is the single most common cause of "it stopped working".
+
+        **Please do not include screenshots of your real email.** Crop them or use a
+        test account.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open an email from ...
+        2. Click Similar
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Anything logged under `[Sweep]` in the browser console (F12).
+      render: text
+
+  - type: input
+    id: gmail-language
+    attributes:
+      label: Gmail language
+      description: Known limitation — the "select all matching" step only works in English.
+      placeholder: English (US)
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Gmail theme
+      options:
+        - Default light
+        - Default dark
+        - A custom or image theme
+        - Not sure
+
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      placeholder: '1.0.0'
