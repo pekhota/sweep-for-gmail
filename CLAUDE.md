@@ -132,6 +132,12 @@ Content scripts run in an isolated world and are exempt, so `innerHTML` is fine 
 `content.js` — but any snippet you paste into DevTools to debug must build DOM nodes
 manually.
 
+**The list pane is a flex column with `space-between`,** sized for exactly two children
+(the list and the footer). Inserting a third splits the free space into _two_ gaps, which
+strands anything you add mid-pane whenever results are short. Give injected children
+`margin-top: auto` — auto margins absorb free space before `justify-content` distributes
+it, so the element sits against the footer at any result count.
+
 **Layout settles late.** Measuring immediately after load can return positions that are
 wildly wrong (the list footer once measured at `y:1184` before settling to `y:631`).
 Re-measure, or measure in response to a mutation, rather than trusting a first read.

@@ -891,7 +891,12 @@
       if (pagerHost.nextElementSibling !== footer) {
         footer.parentElement.insertBefore(pagerHost, footer);
       }
-      pagerHost.style.cssText = 'display:block;text-align:center;';
+      // `margin-top: auto` matters: the pane is a flex column with space-between, sized
+      // for two children (list, footer). Adding a third splits the free space into two
+      // gaps, stranding the pager mid-pane when a search returns only a row or two. An
+      // auto margin absorbs the free space before space-between can distribute it, so the
+      // pager sits against the footer at any result count.
+      pagerHost.style.cssText = 'display:block;text-align:center;margin-top:auto;';
       applyTheme();
       return 'footer';
     }
