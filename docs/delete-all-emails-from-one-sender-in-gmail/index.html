@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Delete All Emails From One Sender in Gmail (2026)</title>
+<meta name="description" content="Delete every email from one sender in Gmail, including the step most guides miss that limits you to 50 at a time. Manual method, search operators, storage tips, and a two-click shortcut.">
+<link rel="canonical" href="https://pekhota.github.io/sweep-for-gmail/delete-all-emails-from-one-sender-in-gmail/">
+
+<meta property="og:title" content="How to Delete All Emails From One Sender in Gmail (2026)">
+<meta property="og:description" content="The complete method, including the 'Select all conversations that match this search' step that most guides miss.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pekhota.github.io/sweep-for-gmail/delete-all-emails-from-one-sender-in-gmail/">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  :root {
+    --fg:#14142b; --muted:#5a5a72; --line:#e7e7f2; --accent:#4f46e5; --bg:#fff;
+    --panel:#f7f7fd; --warn-bg:#fff8e6; --warn-line:#f0d9a0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#eaeaf4; --muted:#a2a2ba; --line:#2b2b40; --accent:#8b85f5; --bg:#101018;
+            --panel:#191926; --warn-bg:#2a2415; --warn-line:#4d4225; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font: 17px/1.68 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--fg); background: var(--bg); -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+  a { color: var(--accent); }
+
+  header.site { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
+  .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700;
+           text-decoration: none; color: var(--fg); }
+  .brand .mk { width: 27px; height: 27px; border-radius: 7px;
+    background: linear-gradient(150deg, #6366f1, #4f46e5);
+    display: flex; align-items: center; justify-content: center; }
+
+  article { padding: 3rem 0 4rem; }
+  h1 { font-size: clamp(2rem, 5vw, 2.7rem); line-height: 1.14; letter-spacing: -1.1px;
+       font-weight: 800; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); letter-spacing: -.5px; margin: 3rem 0 .9rem; }
+  h3 { font-size: 1.12rem; margin: 2rem 0 .5rem; }
+  p { margin-bottom: 1.1rem; }
+  ul, ol { margin: 0 0 1.2rem 1.3rem; }
+  li { margin-bottom: .5rem; }
+
+  .byline { color: var(--muted); font-size: .93rem; margin-bottom: 2rem;
+            padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
+
+  .answer {
+    background: var(--panel); border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.4rem; margin: 0 0 2rem; border-radius: 0 8px 8px 0;
+  }
+  .answer p:last-child { margin-bottom: 0; }
+
+  .callout {
+    background: var(--warn-bg); border: 1px solid var(--warn-line);
+    padding: 1.1rem 1.3rem; border-radius: 9px; margin: 1.6rem 0;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { display: block; margin-bottom: .3rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .75rem .6rem; border-bottom: 1px solid var(--line);
+           vertical-align: top; }
+  th { font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+  code {
+    background: rgba(127,127,150,.15); padding: .13em .42em; border-radius: 4px;
+    font-size: .87em; font-family: ui-monospace, Menlo, monospace; word-break: break-word;
+  }
+  ol.steps { counter-reset: step; list-style: none; margin-left: 0; }
+  ol.steps > li {
+    counter-increment: step; position: relative; padding-left: 2.6rem; margin-bottom: 1.1rem;
+  }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: 0; top: .05rem;
+    width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--accent);
+    color: #fff; font-size: .87rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .faq { border-top: 1px solid var(--line); }
+  .faq h3 { margin-top: 1.6rem; }
+
+  .promo {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.5rem 1.6rem; margin: 2rem 0;
+  }
+  .promo .btn {
+    display: inline-block; margin-top: .9rem; padding: .7rem 1.3rem; border-radius: 2rem;
+    background: linear-gradient(150deg, #6366f1, #4f46e5); color: #fff;
+    text-decoration: none; font-weight: 600; font-size: .95rem;
+  }
+  .disclosure { font-size: .88rem; color: var(--muted); font-style: italic; }
+
+  footer { padding: 2rem 0 3.5rem; border-top: 1px solid var(--line);
+           color: var(--muted); font-size: .9rem; }
+  footer a { margin-right: 1rem; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      "name": "How to delete all emails from one sender in Gmail",
+      "description": "Delete every email from a single sender in Gmail using search, select-all, and the 'select all conversations that match this search' step.",
+      "totalTime": "PT2M",
+      "step": [
+        { "@type": "HowToStep", "name": "Search for the sender", "text": "Type from:sender@example.com into the Gmail search box and press Enter." },
+        { "@type": "HowToStep", "name": "Select everything on the page", "text": "Click the checkbox at the top left of the message list to select all 50 conversations on the page." },
+        { "@type": "HowToStep", "name": "Extend the selection to every match", "text": "Click the link that says 'Select all conversations that match this search'. Without this step you only delete the current page." },
+        { "@type": "HowToStep", "name": "Delete", "text": "Click the trash icon, then confirm the bulk action if Gmail asks." },
+        { "@type": "HowToStep", "name": "Empty the Trash if needed", "text": "Deleted mail sits in Trash for 30 days. Empty it to reclaim storage immediately." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does Gmail only delete 50 emails at a time?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The header checkbox selects only the conversations shown on the current page, which is 50 by default. To delete every match you must also click 'Select all conversations that match this search' in the banner that appears above the list." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I recover emails deleted in bulk from Gmail?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Deleted mail moves to Trash and stays there for 30 days, after which Gmail removes it permanently. You can restore anything from Trash during that window." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I delete all emails from a whole domain in Gmail?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Search for from:@example.com instead of a single address. This matches every sender at that domain, which is useful when a company sends from rotating addresses like noreply-1@ and noreply-2@." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does deleting emails free up Gmail storage?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Only after you empty the Trash. Mail in Trash still counts against your storage quota until it is permanently removed, either by emptying Trash manually or by waiting 30 days." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I delete old emails but keep recent ones?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Combine the sender with an age operator, for example from:news@example.com older_than:1y. You can also protect specific mail by adding -is:starred to exclude anything you have starred." }
+        }
+      ]
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "How to Delete All Emails From One Sender in Gmail (2026)",
+      "datePublished": "2026-08-11",
+      "dateModified": "2026-08-11",
+      "author": { "@type": "Person", "name": "Oleksandr Piekhota" },
+      "mainEntityOfPage": "https://pekhota.github.io/sweep-for-gmail/delete-all-emails-from-one-sender-in-gmail/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="mk">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <rect x="2.6" y="4.2" width="10.8" height="7.6" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <path d="M2.6 4.2 L8 8.6 L13.4 4.2" fill="none" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </span>
+      Sweep
+    </a>
+  </div>
+</header>
+
+<div class="wrap">
+<article>
+
+  <h1>How to delete all emails from one sender in Gmail</h1>
+
+  <p class="byline">
+    By Oleksandr Piekhota · Last updated 11 August 2026 · 6 min read
+  </p>
+
+  <div class="answer">
+    <p>
+      <strong>Quick answer:</strong> search <code>from:sender@example.com</code>, click the
+      checkbox above the message list, then click <strong>“Select all conversations that
+      match this search”</strong> in the banner that appears, and press the trash icon. That
+      middle step is the one most people miss — without it Gmail deletes only the 50
+      messages on the current page.
+    </p>
+  </div>
+
+  <p>
+    Every few months you notice that some newsletter has quietly deposited a thousand emails
+    in your account. Gmail can remove all of them in about fifteen seconds, but only if you
+    know about one non-obvious link. This guide covers the full method, the variations worth
+    knowing, and what actually happens to your storage afterwards.
+  </p>
+
+  <h2>Delete every email from a sender: step by step</h2>
+
+  <ol class="steps">
+    <li>
+      <strong>Search for the sender.</strong> In the Gmail search box, type
+      <code>from:sender@example.com</code> and press Enter. You can also click a message from
+      that sender, then copy the address from the header.
+    </li>
+    <li>
+      <strong>Select everything on the page.</strong> Click the empty checkbox at the top
+      left of the message list. Gmail selects the conversations currently shown — 50 by
+      default.
+    </li>
+    <li>
+      <strong>Extend the selection to every match.</strong> A banner appears above the list
+      reading “All 50 conversations on this page are selected.” Next to it is a link:
+      <strong>“Select all 1,036 conversations that match this search.”</strong> Click it.
+      <em>This is the step that matters.</em>
+    </li>
+    <li>
+      <strong>Delete.</strong> Click the trash icon in the toolbar. Gmail may ask you to
+      confirm a bulk action — confirm it.
+    </li>
+    <li>
+      <strong>Empty the Trash, if you are reclaiming storage.</strong> Open Trash in the left
+      sidebar and choose “Empty Trash now”. Until you do, those messages still count against
+      your quota.
+    </li>
+  </ol>
+
+  <div class="callout">
+    <strong>Why your count says 50 when there are thousands</strong>
+    <p>
+      Gmail's header checkbox only ever selects the current page. The “select all
+      conversations that match this search” link is the only way to act on the whole result
+      set, and it appears only <em>after</em> you tick the header checkbox. If you have ever
+      deleted a sender's mail and found it back the next week, this is almost certainly why.
+    </p>
+  </div>
+
+  <h2>Search operators worth knowing</h2>
+
+  <p>
+    Everything above works with any Gmail search. Combining operators lets you delete
+    precisely what you mean to and keep the rest.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Goal</th><th>Search</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>One exact sender</td><td><code>from:news@example.com</code></td></tr>
+      <tr><td>Every sender at a company</td><td><code>from:@example.com</code></td></tr>
+      <tr><td>Older than a year</td><td><code>from:news@example.com older_than:1y</code></td></tr>
+      <tr><td>Bigger than 10 MB</td><td><code>from:news@example.com larger:10M</code></td></tr>
+      <tr><td>Never opened</td><td><code>from:news@example.com is:unread</code></td></tr>
+      <tr><td>With attachments</td><td><code>from:news@example.com has:attachment</code></td></tr>
+      <tr><td>Keep anything starred</td><td><code>from:news@example.com -is:starred</code></td></tr>
+      <tr><td>Include Spam and Trash</td><td><code>from:news@example.com in:anywhere</code></td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Age accepts <code>d</code>, <code>m</code> and <code>y</code> — so <code>older_than:6m</code>
+    is six months. Size accepts <code>M</code> and <code>K</code>. The minus sign excludes,
+    which is the safest habit to build: <code>-is:starred</code> costs nothing and protects
+    anything you have deliberately marked.
+  </p>
+
+  <h2>Delete all emails from a domain, not just one address</h2>
+
+  <p>
+    Companies rotate sending addresses — <code>noreply-1@</code>, <code>marketing@</code>,
+    <code>offers@</code> — so deleting one address often leaves most of the mail behind.
+    Searching <code>from:@example.com</code> matches every address at that domain in one go.
+  </p>
+
+  <p>
+    Check the result count before deleting. A domain search can sweep up genuine
+    correspondence, particularly for a company you actually have an account with.
+  </p>
+
+  <h2>Freeing up Gmail storage</h2>
+
+  <p>
+    A free Google account includes 15 GB shared across Gmail, Drive and Photos. When it
+    fills, Gmail stops receiving mail — so storage cleanups are usually urgent when they
+    happen.
+  </p>
+
+  <p>Attachments, not message counts, are what fill a mailbox. Two searches do most of the work:</p>
+
+  <ul>
+    <li><code>larger:10M</code> — every message over 10 MB, regardless of sender</li>
+    <li><code>has:attachment older_than:2y</code> — old mail carrying files you have long since saved elsewhere</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Deleting does not free storage until you empty the Trash</strong>
+    <p>
+      Mail in Trash still counts against your quota. Gmail clears Trash automatically after
+      30 days, or you can empty it immediately. That 30-day window is also your safety net —
+      see below.
+    </p>
+  </div>
+
+  <h2>What happens to deleted mail</h2>
+
+  <ul>
+    <li>Deleted mail goes to <strong>Trash</strong> and is recoverable for <strong>30 days</strong>.</li>
+    <li>After 30 days Gmail removes it permanently. There is no undo after that.</li>
+    <li>Emptying Trash yourself makes deletion immediate and permanent.</li>
+    <li>Bulk actions cap out at roughly <strong>1,000 conversations</strong> per operation. If you have more, repeat the same steps — the count simply drops each time.</li>
+  </ul>
+
+  <h2>Deleting versus unsubscribing versus archiving</h2>
+
+  <table>
+    <thead>
+      <tr><th>Action</th><th>What it does</th><th>Use when</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Delete</td>
+        <td>Moves mail to Trash; gone after 30 days</td>
+        <td>You want the space back and will never need the messages</td>
+      </tr>
+      <tr>
+        <td>Archive</td>
+        <td>Removes from Inbox, keeps it searchable forever</td>
+        <td>You want a clean inbox but might need the mail later</td>
+      </tr>
+      <tr>
+        <td>Unsubscribe</td>
+        <td>Stops <em>future</em> mail; changes nothing already received</td>
+        <td>Always — pair it with a delete, or the pile rebuilds</td>
+      </tr>
+      <tr>
+        <td>Filter → delete</td>
+        <td>Auto-deletes matching mail on arrival</td>
+        <td>A sender you can never unsubscribe from</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Deleting without unsubscribing is the most common mistake. You reclaim the space and the
+    sender refills it. Gmail shows an <strong>Unsubscribe</strong> link next to the sender's
+    name on most bulk mail — use it first, then delete.
+  </p>
+
+  <h3>Auto-delete future mail with a filter</h3>
+
+  <p>
+    For a sender that ignores unsubscribe requests: open <strong>Settings → Filters and
+    Blocked Addresses → Create a new filter</strong>, enter the address in
+    <strong>From</strong>, click <strong>Create filter</strong>, then tick <strong>Delete
+    it</strong>. New mail from that sender goes straight to Trash on arrival.
+  </p>
+
+  <h2>Doing it in two clicks instead</h2>
+
+  <p class="disclosure">
+    Disclosure: I wrote the free extension described below, after doing the steps above by
+    hand one too many times.
+  </p>
+
+  <div class="promo">
+    <p>
+      <strong>Sweep</strong> collapses the whole sequence into one button. Open any email,
+      click <strong>Similar</strong>, and it searches for that sender, waits for the results
+      and applies the “select all that match” step for you. You press Delete.
+    </p>
+    <p>
+      It never asks to sign in, and it makes no network requests — unlike inbox-cleaning
+      services, it has no server and cannot read your mailbox. It only works with the Gmail
+      page already open in your browser, and it never deletes anything itself: it hands the
+      selection to Gmail's own Delete button, so everything stays recoverable from Trash.
+    </p>
+    <a class="btn" href="../">Get Sweep — free and open source</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th></th><th>By hand</th><th>Sweep</th><th>Inbox-cleaning services</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Clicks per sender</td><td>5–6</td><td>2</td><td>Varies</td></tr>
+      <tr><td>Needs a Google sign-in</td><td>No</td><td>No</td><td>Yes</td></tr>
+      <tr><td>Can read your mailbox</td><td>—</td><td>No server exists</td><td>Yes, by design</td></tr>
+      <tr><td>Cost</td><td>Free</td><td>Free</td><td>Usually subscription</td></tr>
+      <tr><td>Filter by age, size, read state</td><td>Manually, per search</td><td>Built in</td><td>Usually</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="faq">Frequently asked questions</h2>
+
+  <h3>Why does Gmail only delete 50 emails at a time?</h3>
+  <p>
+    Because the header checkbox selects only the current page, which holds 50 conversations
+    by default. To act on every match you must also click “Select all conversations that
+    match this search” in the banner that appears above the list.
+  </p>
+
+  <h3>Can I recover emails I deleted in bulk?</h3>
+  <p>
+    Yes, for 30 days. Bulk deletion moves mail to Trash rather than removing it, so you can
+    restore anything within that window. After 30 days Gmail deletes it permanently.
+  </p>
+
+  <h3>How do I delete all emails from a whole company?</h3>
+  <p>
+    Search <code>from:@example.com</code> rather than a single address. That matches every
+    sender at the domain, which catches companies that rotate addresses.
+  </p>
+
+  <h3>Does deleting emails free up Gmail storage?</h3>
+  <p>
+    Only once the Trash is emptied. Deleted mail keeps consuming your quota until it is
+    permanently removed — either by emptying Trash yourself or by waiting out the 30 days.
+  </p>
+
+  <h3>How do I delete old emails but keep recent ones?</h3>
+  <p>
+    Add an age operator: <code>from:news@example.com older_than:1y</code>. Add
+    <code>-is:starred</code> as well to protect anything you have starred.
+  </p>
+
+  <h3>Can I delete emails from multiple senders at once?</h3>
+  <p>
+    Yes. Use <code>OR</code> between addresses, in capitals:
+    <code>from:(a@example.com OR b@example.com)</code>. The select-all and delete steps are
+    identical.
+  </p>
+
+  <h3>Does this work on the Gmail mobile app?</h3>
+  <p>
+    Partly. You can search and select on mobile, but the “select all conversations that match
+    this search” link is only offered in the desktop web interface. For large cleanups, use a
+    browser.
+  </p>
+
+  <footer>
+    <a href="../">Sweep</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="https://github.com/pekhota/sweep-for-gmail">GitHub</a>
+    <p style="margin-top:1rem">
+      Gmail is a trademark of Google LLC. Sweep is an independent open-source project and is
+      not affiliated with, endorsed by, or sponsored by Google. Gmail's interface changes
+      periodically; if a step here no longer matches what you see, please
+      <a href="https://github.com/pekhota/sweep-for-gmail/issues">let me know</a>.
+    </p>
+  </footer>
+
+</article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+# Sweep
+
+> A free, open-source Chrome extension that finds every email from one sender in Gmail and
+> selects them all, so they can be deleted in two clicks. It makes no network requests, has
+> no server, and never asks for Google account access.
+
+Sweep adds a "Similar" button to Gmail's conversation toolbar. It reads the sender of the
+open message, searches for that sender, waits for the results, and applies Gmail's "select
+all conversations that match this search" step automatically. The user then presses Gmail's
+own Delete button, so deleted mail goes to Trash and stays recoverable for 30 days.
+
+Unlike inbox-cleaning services, Sweep does not use the Gmail API and requests no OAuth
+access. It operates only on the Gmail page already open in the browser. Its single Chrome
+permission is `storage`, used to remember filter preferences locally.
+
+It also adds a second pagination control at the bottom of Gmail's message lists, which
+Gmail only provides at the top.
+
+## Pages
+
+- [Home](https://pekhota.github.io/sweep-for-gmail/): what it does, how it works, privacy comparison
+- [How to delete all emails from one sender in Gmail](https://pekhota.github.io/sweep-for-gmail/delete-all-emails-from-one-sender-in-gmail/): complete manual method, Gmail search operators, storage guidance
+- [Privacy policy](https://pekhota.github.io/sweep-for-gmail/privacy.html): full data-use statement
+- [Source code](https://github.com/pekhota/sweep-for-gmail): MIT licensed, one readable file, no build step
+
+## Facts
+
+- Price: free, no paid tier, no subscription
+- Licence: MIT
+- Data collected: none
+- Network requests: none
+- Chrome permissions: `storage` only
+- Works on: mail.google.com in Chrome-based browsers
+- Does not support: Gmail's basic HTML view
