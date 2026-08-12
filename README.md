@@ -11,8 +11,8 @@ No sign-in · No inbox access · No data collected · Open source
 ---
 
 Open any email in Gmail, click **Similar**, and Sweep finds every other message from that
-sender and selects the lot — all 1,036 of them, not the 25 on screen. Then you press Gmail's
-own Delete.
+sender and selects the lot — every match, not just the ones on screen. Then you press
+Gmail's own Delete.
 
 It also adds the thing Gmail has never had: pagination at the _bottom_ of a message list.
 

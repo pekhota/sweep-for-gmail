@@ -33,14 +33,14 @@ differentiator against every competitor that requires mailbox access.
 ```
 Sweep finds every email from the sender you are reading and selects the whole lot, so you can delete years of newsletters in two clicks.
 
-Open any email. Click Similar. Sweep searches your mail for that sender, waits for the results, and ticks every single match — not just the 25 on screen. Then you press Gmail's own Delete button.
+Open any email. Click Similar. Sweep searches your mail for that sender, waits for the results, and ticks every single match — not just the ones visible on screen. Then you press Gmail's own Delete button.
 
 WHAT IT DOES
 
 • One-click cleanup — open an email, click Similar, and every message from that sender is found and selected
 • Filter before you delete — narrow by age (7 days to 2 years), read state, size, or attachments
 • Keeps what matters — starred mail is protected by default, and you can protect important mail too
-• Selects everything, not just this page — all 1,036 matches, not the first 25
+• Selects everything, not just this page — every match in your mailbox, however many there are
 • Pagination where you need it — Gmail only shows Older / Newer at the top of a list; Sweep adds it at the bottom too, on every list and search
 
 HOW TO USE IT
@@ -123,7 +123,7 @@ Upload in this order — the first is what most people judge the extension on.
    Four years of it. Gone in two clicks."
 2. **Control.** The filter panel open, with the live query preview called out. Answers the
    "will this nuke something I need?" objection.
-3. **The payoff.** 1,036 conversations selected, Gmail's Delete highlighted. Makes clear
+3. **The payoff.** Every match selected, Gmail's Delete highlighted. Makes clear
    Sweep hands off rather than deleting on its own.
 4. **The bonus feature.** Bottom pagination, which no competitor has and which users notice
    daily.
