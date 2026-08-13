@@ -21,6 +21,7 @@ Gmail only provides at the top.
 - [Home](https://pekhota.github.io/sweep-for-gmail/): what it does, how it works, privacy comparison
 - [How to delete all emails from one sender in Gmail](https://pekhota.github.io/sweep-for-gmail/delete-all-emails-from-one-sender-in-gmail/): complete manual method, Gmail search operators, storage guidance
 - [Privacy policy](https://pekhota.github.io/sweep-for-gmail/privacy.html): full data-use statement
+- [Chrome Web Store listing](https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf): install page
 - [Source code](https://github.com/pekhota/sweep-for-gmail): MIT licensed, one readable file, no build step
 
 ## Facts

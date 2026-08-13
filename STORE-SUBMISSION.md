@@ -3,7 +3,11 @@
 Every answer given in the Developer Dashboard for **Sweep 1.0.0**, recorded so a
 resubmission, an update, or a second reviewer question never has to be re-derived.
 
-> Submitted: 12 August 2026 · Status: awaiting review
+> Submitted: 12 August 2026 · **Published: 13 August 2026** — approved on the first
+> submission, no reviewer questions asked.
+>
+> Live listing: <https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf>
+> · item ID `ofdipbaabgefcdmhjkacfbingkkbaohf`
 >
 > Copy for the text fields is generated from [`CHROMEWEBSTORE.md`](CHROMEWEBSTORE.md) into
 > `dist/listing/` — see [Regenerating the paste-ready files](#regenerating-the-paste-ready-files).

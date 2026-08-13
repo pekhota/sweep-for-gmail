@@ -27,7 +27,8 @@ The only permission it requests is `storage`, used to remember your filter choic
 
 ## Install
 
-**From the Chrome Web Store:** _(link once published)_
+**From the Chrome Web Store:**
+[Add to Chrome — free](https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf)
 
 **From source:**
 
