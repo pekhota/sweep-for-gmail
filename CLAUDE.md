@@ -132,6 +132,12 @@ Content scripts run in an isolated world and are exempt, so `innerHTML` is fine 
 `content.js` — but any snippet you paste into DevTools to debug must build DOM nodes
 manually.
 
+**The list pane is a flex column with `space-between`,** sized for exactly two children
+(the list and the footer). Inserting a third splits the free space into _two_ gaps, which
+strands anything you add mid-pane whenever results are short. Give injected children
+`margin-top: auto` — auto margins absorb free space before `justify-content` distributes
+it, so the element sits against the footer at any result count.
+
 **Layout settles late.** Measuring immediately after load can return positions that are
 wildly wrong (the list footer once measured at `y:1184` before settling to `y:631`).
 Re-measure, or measure in response to a mutation, rather than trusting a first read.
@@ -245,6 +251,22 @@ architecture; the logic/DOM boundary is kept by convention instead — `buildQue
 
 ---
 
+## Debugging against live Gmail
+
+Do not reason about Gmail's DOM from the code. Inspect the running page.
+
+Three separate bugs in this project were misdiagnosed by inference and solved in minutes by
+measuring: the readout living under `gh="tm"`, the footer anchor being a hidden per-view
+container, and the pager being stranded by a flex `space-between` parent. In each case the
+guess was plausible and wrong.
+
+When probing a live page, note that the extension's own sync loop re-mounts its UI roughly
+every 350ms, so DOM edits made from the console get reverted — measure in the same tick, or
+account for the remount. Trusted Types also block `innerHTML` in page context, so console
+snippets must build nodes with `document.createElement`.
+
+Verify a fix against the real page before reporting it done.
+
 ## Tooling traps
 
 - **macOS `sed` is BSD**, not GNU: no `\b`, and no `\|` alternation in basic regex. Use
@@ -270,5 +292,8 @@ architecture; the logic/DOM boundary is kept by convention instead — `buildQue
 5. Upload that zip in the Chrome Web Store dashboard
 
 `CHROMEWEBSTORE.md` holds the listing copy, permission justifications and data disclosure.
+`STORE-SUBMISSION.md` records every answer actually given in the Developer Dashboard —
+including the ones that are judgement calls (category, trader status, why all nine data-use
+boxes are unchecked), so a resubmission never has to re-derive them.
 `LAUNCH.md` holds the growth plan. Keep both current when user-facing behaviour changes —
 a listing that overstates what the code does is a policy problem, not just a docs problem.

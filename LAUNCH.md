@@ -13,15 +13,19 @@ Lead with that everywhere. Never lead with "I built an extension."
 
 ---
 
-## Phase 0 — Before you submit (1–2 hours)
+## Phase 0 — Before you submit (1–2 hours) — **done**
 
-- [ ] Create the GitHub repo `sweep-for-gmail`, push, and confirm the handle in every URL
+**Approved 13 August 2026**, one day after submission, first try, no reviewer questions.
+Live at <https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf>. Every
+answer given in the dashboard is recorded in [`STORE-SUBMISSION.md`](STORE-SUBMISSION.md).
+
+- [x] Create the GitHub repo `sweep-for-gmail`, push, and confirm the handle in every URL
       (`CHROMEWEBSTORE.md`, `docs/`, `assets/src/shot-5.html`)
-- [ ] Settings → Pages → source `main` / `/docs`. Confirm both pages load: - `https://<you>.github.io/sweep-for-gmail/` - `https://<you>.github.io/sweep-for-gmail/privacy.html`
-- [ ] Register at [chrome.google.com/webstore/devconsole](https://chrome.google.com/webstore/devconsole) — one-off $5 fee
-- [ ] Upload `dist/sweep-1.0.0.zip`, paste the fields from `CHROMEWEBSTORE.md`, upload the
+- [x] Settings → Pages → source `main` / `/docs`. Confirm both pages load: - `https://<you>.github.io/sweep-for-gmail/` - `https://<you>.github.io/sweep-for-gmail/privacy.html`
+- [x] Register at [chrome.google.com/webstore/devconsole](https://chrome.google.com/webstore/devconsole) — one-off $5 fee
+- [x] Upload `dist/sweep-1.0.0.zip`, paste the fields from `CHROMEWEBSTORE.md`, upload the
       five screenshots and both promo tiles
-- [ ] Submit. Review is typically 1–3 business days for a first submission.
+- [x] Submit. Review is typically 1–3 business days for a first submission.
 
 **Do not launch anywhere on the day you're approved.** Get 5–10 friends to install it and
 leave honest reviews first. An extension with 0 ratings converts badly; one with 8 five-star
