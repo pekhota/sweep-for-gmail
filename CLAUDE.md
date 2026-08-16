@@ -185,7 +185,7 @@ retrigger the observer that renders it.
 npm install                  # first time
 npm run check                # lint + format + types + syntax + validate — before committing
 npm run typecheck            # tsc --noEmit over JSDoc types (no build step, no TS files)
-npm run validate             # project invariants only (48 checks)
+npm run validate             # project invariants only (54 checks)
 python3 tools/make_icons.py  # regenerate icons
 ./tools/make_assets.sh       # render store artwork at exact pixel sizes
 ./tools/package.sh           # build dist/sweep-<version>.zip

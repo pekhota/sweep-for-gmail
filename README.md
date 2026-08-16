@@ -4,6 +4,8 @@
 
 **Delete every email from one sender, in two clicks.**
 
+[**Add to Chrome — free**](https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf)
+
 No sign-in · No inbox access · No data collected · Open source
 
 </div>

@@ -1,7 +1,7 @@
 # Chrome Web Store Listing — Sweep
 
-> Last Updated: 2026-08-11
-> Status: ready to submit, pending developer account registration
+> Last Updated: 2026-08-16
+> Status: published — <https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf>
 
 **Assumption to confirm:** every URL below uses the GitHub handle `pekhota`. If your handle
 differs, search-and-replace it here, in `docs/`, and in `assets/src/shot-5.html`.
@@ -216,9 +216,9 @@ most common first-submission rejections.
 
 ## Version History
 
-| Version | Date       | Changes                                                                                 | Status |
-| ------- | ---------- | --------------------------------------------------------------------------------------- | ------ |
-| 1.0.0   | 2026-08-11 | First public release: Similar button with auto-select, filter panel, bottom pagination. | Draft  |
+| Version | Date       | Changes                                                                                 | Status                   |
+| ------- | ---------- | --------------------------------------------------------------------------------------- | ------------------------ |
+| 1.0.0   | 2026-08-11 | First public release: Similar button with auto-select, filter panel, bottom pagination. | **Published 2026-08-13** |
 
 ---
 

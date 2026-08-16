@@ -36,7 +36,7 @@ Load it in Chrome: `chrome://extensions` → Developer mode → **Load unpacked*
 ## Making a change
 
 ```bash
-npm run check    # lint, format, syntax, and 48 project invariants
+npm run check    # lint, format, syntax, and 54 project invariants
 ```
 
 Run it before every commit. CI runs the same gates and they are required to merge.

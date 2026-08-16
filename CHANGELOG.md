@@ -12,7 +12,8 @@ is the source of truth and CI refuses to release when a git tag disagrees with i
 
 ## [1.0.0] — 2026-08-11
 
-First public release.
+First public release. Submitted to the Chrome Web Store on 12 August 2026 and published on
+13 August 2026 — approved on the first submission, with no reviewer questions.
 
 ### Added
 
@@ -23,7 +24,7 @@ First public release.
   Gmail search, with choices remembered between uses.
 - **Bottom pagination**, mirroring the readout Gmail only shows at the top. Works on the
   inbox, any label, any category and any search, paging via Gmail's own `/pN` URL scheme.
-- Quality gates in CI: ESLint, Prettier, and 48 project invariants covering store limits,
+- Quality gates in CI: ESLint, Prettier, and 54 project invariants covering store limits,
   icon and artwork dimensions, a permission allowlist, listing/policy consistency, and the
   zero-network-calls promise.
 
