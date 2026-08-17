@@ -139,7 +139,7 @@ numeric order. Filenames record when each was made; the upload order is a separa
 decision, and the store carousel only shows two or three before someone decides.
 
 1. `shot-1` — **The hook.** Thread view with the Similar button called out. Headline: "One
-   newsletter. Four years of it. Gone in two clicks."
+   sender. Every message. Gone in two clicks."
 2. `shot-5` — **Trust.** Privacy claims as plain cards, including what Chrome's "read and
    change your data" warning actually means. Moved from last to second in August 2026:
    several people who were told about the extension in person assumed it wanted mailbox

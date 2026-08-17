@@ -28,6 +28,11 @@ is the source of truth and CI refuses to release when a git tag disagrees with i
 - Store summary and `manifest.json` description reworded together (they are the same
   field). This one ships with the next version.
 - Screenshot upload order is now 1, 5, 2, 3, 4 — trust second rather than last.
+- **Screenshot and landing-page copy is no longer at the reader's expense.** The headline
+  narrated a failure back at them ("One newsletter. Four years of it.", "You have never
+  opened one of these"), and the mock subject line was a joke no real sender would print.
+  The subject is now something a retailer would actually send, and the framing is neutral:
+  a newsletter you signed up for once and stopped reading.
 
 ## [1.0.0] — 2026-08-11
 
