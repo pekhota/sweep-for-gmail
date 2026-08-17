@@ -22,6 +22,8 @@ zip -rq "$OUT" \
   manifest.json \
   content.js \
   content.css \
+  options.html \
+  options.js \
   icons \
   -x '*.DS_Store'
 
@@ -29,4 +31,5 @@ echo "$OUT"
 unzip -l "$OUT" | awk 'NR>3 && $4 != "" && $1 ~ /^[0-9]+$/ {printf "  %8s  %s\n", $1, $4}'
 
 echo
-echo "Package contents must be exactly: manifest.json, content.js, content.css, icons/*.png"
+echo "Package contents must be exactly: manifest.json, content.js, content.css,"
+echo "options.html, options.js, icons/*.png"

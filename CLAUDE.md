@@ -18,8 +18,9 @@ A Chrome extension (Manifest V3) that adds two things to Gmail:
 2. A **second pagination control** at the bottom of list and search views, because Gmail
    only offers one at the top.
 
-The whole extension is one content script. There is no background service worker, no
-popup, no options page, no build step for the shipped code.
+The extension is one content script plus a two-file options page (`options.html`,
+`options.js`) holding a single checkbox that switches the bottom pager off. There is no
+background service worker, no popup, and no build step for the shipped code.
 
 ---
 
@@ -35,14 +36,17 @@ network requests of any kind. That claim is the product's main differentiator ag
 every competitor that requires OAuth mailbox access.
 
 CI fails on `fetch(`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `EventSource`,
-`storage.sync`, `importScripts`, `eval(`, and `new Function` appearing in `content.js`.
+`storage.sync`, `importScripts`, `eval(`, and `new Function` appearing in any shipped
+code — `content.js`, `options.js` or `options.html`. `options.html` is additionally checked
+for remote `<script src>`.
 
 **Never add analytics, telemetry, or error reporting.** Not even self-hosted. The absence
 is the feature.
 
 ### 2. One permission
 
-`storage`, used only for filter preferences via `chrome.storage.local`. No
+`storage`, used only for filter preferences (`sweep:filters`) and the options-page
+settings (`sweep:settings`), both via `chrome.storage.local`. No
 `host_permissions`, no `tabs`, no `activeTab`, no `scripting`, no background worker.
 
 Adding a permission requires updating `ALLOWED_PERMISSIONS` in `tools/validate.mjs` _and_
@@ -58,8 +62,10 @@ Do not add a delete action, and never touch `act="12"` (delete forever).
 
 ### 4. No UI that duplicates Gmail
 
-The extension renders exactly three things: the toolbar button, the filter panel, and the
-bottom pager. Nothing else.
+The extension renders exactly three things inside Gmail: the toolbar button, the filter
+panel, and the bottom pager. Nothing else. The options page is not part of this count — it
+is the extension's own surface in `chrome://extensions`, where Gmail shows nothing at all,
+and it stays as small as the settings it holds.
 
 There used to be a confirm bar and several toasts. All were removed, because Gmail already
 shows its own selection banner, ticked rows, search state and empty-results message. Worse,
@@ -170,6 +176,15 @@ markup at all. Verified against all four.
 8. **Sync loop** — a throttled `MutationObserver` on `document.body`, plus `hashchange`
    and `resize`
 
+`options.js` is the only other script. It owns one checkbox and writes `sweep:settings` to
+`chrome.storage.local`; `content.js` reads that key at start-up and listens on
+`chrome.storage.onChanged`, so a toggle applies to open Gmail tabs without a reload.
+
+The pager is gated by `pagerEnabled()`, which is false until the setting has actually been
+read — folded into `renderPager`'s existing "no range, so tear down" path rather than added
+as a second exit. Rendering before the value is known would flash a pager on screen for
+someone who has switched it off.
+
 The panel and pager live in **shadow roots** so Gmail's CSS cannot reach them and theirs
 cannot leak. Only the toolbar button is light DOM (it has to inherit toolbar layout), which
 is why `content.css` exists and is small.
@@ -185,7 +200,7 @@ retrigger the observer that renders it.
 npm install                  # first time
 npm run check                # lint + format + types + syntax + validate — before committing
 npm run typecheck            # tsc --noEmit over JSDoc types (no build step, no TS files)
-npm run validate             # project invariants only (54 checks)
+npm run validate             # project invariants only (59 checks)
 python3 tools/make_icons.py  # regenerate icons
 ./tools/make_assets.sh       # render store artwork at exact pixel sizes
 ./tools/package.sh           # build dist/sweep-<version>.zip
@@ -202,6 +217,8 @@ break without warning. Verify by hand:
 3. Open an email, click **Similar**, confirm results are selected
 4. Open the caret panel, change a filter, confirm the query preview updates
 5. Scroll to the bottom of a list, confirm the pager appears and pages
+6. Open **Details → Extension options**, untick the pager, and confirm it disappears from
+   an already-open Gmail tab without a reload — then tick it back
 
 **Step 1 is not optional.** Reloading Gmail alone re-injects Chrome's _cached_ copy of
 `content.js`. Several "it's broken" reports during development were a stale build. If

@@ -35,9 +35,10 @@ export default [
     ignores: ['dist/**', 'node_modules/**', 'assets/store/**', 'docs/**'],
   },
 
-  // The extension itself. Runs in a page's isolated world.
+  // The extension itself: the content script in a page's isolated world, and the
+  // options page, which runs as a normal extension page.
   {
-    files: ['content.js'],
+    files: ['content.js', 'options.js'],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: 'script',

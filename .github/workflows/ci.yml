@@ -61,7 +61,7 @@ jobs:
         run: |
           version=$(python3 -c 'import json;print(json.load(open("manifest.json"))["version"])')
           actual=$(unzip -Z1 "dist/sweep-$version.zip" | grep -v '/$' | sort | tr '\n' ' ')
-          expected="content.css content.js icons/icon-128.png icons/icon-16.png icons/icon-48.png manifest.json "
+          expected="content.css content.js icons/icon-128.png icons/icon-16.png icons/icon-48.png manifest.json options.html options.js "
           echo "actual:   $actual"
           echo "expected: $expected"
           [ "$actual" = "$expected" ] || { echo "::error::package contents changed"; exit 1; }

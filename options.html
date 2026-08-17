@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sweep options</title>
+    <!--
+      Palette is hardcoded here, unlike content.js. That file has to match whatever theme
+      Gmail is wearing and so reads its colours off a live sidebar row; this page is ours,
+      so prefers-color-scheme is the right signal and the only one available.
+    -->
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #202124;
+        --muted: #5f6368;
+        --line: #dadce0;
+        --accent: #1a73e8;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #202124;
+          --fg: #e8eaed;
+          --muted: #9aa0a6;
+          --line: #3c4043;
+          --accent: #8ab4f8;
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 20px 22px;
+        min-width: 360px;
+        background: var(--bg);
+        color: var(--fg);
+        font: 14px/1.5 'Google Sans', Roboto, system-ui, sans-serif;
+      }
+
+      h1 {
+        margin: 0 0 2px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .sub {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .row:hover {
+        border-color: var(--accent);
+      }
+
+      .row input {
+        margin: 2px 0 0;
+        accent-color: var(--accent);
+        width: 16px;
+        height: 16px;
+      }
+
+      .row strong {
+        display: block;
+        font-weight: 500;
+      }
+
+      .row small {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+      }
+
+      .foot {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sweep</h1>
+    <p class="sub">The Similar button is always available. This page controls the extras.</p>
+
+    <label class="row">
+      <input type="checkbox" id="bottom-pager" />
+      <span>
+        <strong>Pagination at the bottom of message lists</strong>
+        <small>
+          Mirrors Gmail's Older and Newer controls, which Gmail only shows at the top. Takes
+          effect immediately in open Gmail tabs.
+        </small>
+      </span>
+    </label>
+
+    <p class="foot">
+      Saved on this computer with <code>chrome.storage.local</code>. Nothing is synced and
+      nothing leaves your browser.
+    </p>
+
+    <script src="options.js"></script>
+  </body>
+</html>
