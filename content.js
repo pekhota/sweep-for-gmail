@@ -7,7 +7,8 @@
  * The caret half opens a panel for narrowing the query down first.
  *
  * Also mirrors Gmail's pagination to the bottom of list views, since Gmail only offers it
- * at the top.
+ * at the top. That half can be switched off from the options page (`options.html`), which
+ * writes the same `chrome.storage.local` this file reads.
  *
  * Nothing leaves the page: no network calls, no API, no OAuth.
  */
@@ -21,6 +22,15 @@
   globalWindow.__sweepLoaded = true;
 
   const STORAGE_KEY = 'sweep:filters';
+  const SETTINGS_KEY = 'sweep:settings';
+
+  /**
+   * Preferences from the options page, with the defaults applied until storage answers.
+   * `settingsLoaded` gates the pager specifically: rendering before the setting is known
+   * would flash a pager on screen that the user has switched off.
+   */
+  const settings = { bottomPager: true };
+  let settingsLoaded = false;
 
   /* ------------------------------------------------------------------ *
    * Small helpers
@@ -96,6 +106,22 @@
     } catch {
       /* storage is a convenience, never a hard dependency */
     }
+  }
+
+  /**
+   * Applies the options page's settings over the defaults. A missing, corrupt or
+   * unreadable value leaves the default in place — the extension must stay usable when
+   * storage does not answer.
+   */
+  async function loadSettings() {
+    try {
+      const stored = await chrome.storage.local.get(SETTINGS_KEY);
+      const saved = /** @type {Record<string, unknown> | undefined} */ (stored?.[SETTINGS_KEY]);
+      if (typeof saved?.bottomPager === 'boolean') settings.bottomPager = saved.bottomPager;
+    } catch {
+      /* defaults stand */
+    }
+    settingsLoaded = true;
   }
 
   /* ------------------------------------------------------------------ *
@@ -876,6 +902,8 @@
   let pager = null;
   let pagerSignature = '';
 
+  const pagerEnabled = () => settingsLoaded && settings.bottomPager;
+
   function hidePager() {
     pagerHost.remove();
     pager?.remove();
@@ -912,8 +940,9 @@
   function renderPager() {
     // Mirror Gmail exactly: show wherever Gmail shows its own range readout — inbox,
     // any label, any category, any search — and nowhere else. A conversation has its
-    // own message-level navigation, so it's excluded.
-    const range = isThreadOpen() ? null : readRange();
+    // own message-level navigation, so it's excluded. Switching the pager off in the
+    // options page reuses the same path, so it tears down anything already mounted.
+    const range = isThreadOpen() || !pagerEnabled() ? null : readRange();
     if (!range) {
       hidePager();
       return;
@@ -997,5 +1026,13 @@
     if (event.key === 'Escape') closePanel();
   });
 
+  // The options page writes to the same local store, so a toggle takes effect in every
+  // open Gmail tab without a reload.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !changes[SETTINGS_KEY]) return;
+    loadSettings().then(sync);
+  });
+
   sync();
+  loadSettings().then(sync);
 })();

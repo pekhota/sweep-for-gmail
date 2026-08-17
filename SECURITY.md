@@ -39,10 +39,10 @@ Findings that would be especially valuable:
 
 ## Verifying the privacy claims yourself
 
-The extension is one readable file with no build step and no dependencies:
+The extension is a few readable files with no build step and no dependencies:
 
 ```bash
-grep -nE "fetch|XMLHttpRequest|WebSocket|sendBeacon|storage\.sync|eval\(" content.js
+grep -nE "fetch|XMLHttpRequest|WebSocket|sendBeacon|storage\.sync|eval\(" content.js options.js
 # no matches
 ```
 

@@ -86,6 +86,16 @@ check('no host_permissions', !manifest.host_permissions, JSON.stringify(manifest
 check('no background service worker', !manifest.background);
 check('no optional_permissions', !manifest.optional_permissions);
 
+// The options page is the only extension-owned page. A manifest pointing at a file that
+// is not there gives the user a blank dialog with no error anywhere.
+const optionsUi = manifest.options_ui;
+check('options_ui page exists', !optionsUi || existsSync(join(ROOT, optionsUi.page)), optionsUi?.page);
+check(
+  'options_ui opens as a dialog',
+  !optionsUi || optionsUi.open_in_tab === false,
+  'opening in a tab is a fine choice, but it should be a deliberate edit here'
+);
+
 const matches = manifest.content_scripts?.flatMap((cs) => cs.matches) ?? [];
 check(
   'content script scoped to mail.google.com only',
@@ -122,7 +132,10 @@ check('every declared icon size is a distinct file', new Set(iconPaths).size ===
 
 section('privacy invariants');
 
-const source = read('content.js');
+// Every file that ships and can execute. The promise is about the extension, not about
+// one file of it, so a second script must clear the same bar.
+const EXECUTABLE = ['content.js', 'options.js', 'options.html'];
+const source = EXECUTABLE.map(read).join('\n');
 
 const FORBIDDEN = [
   ['fetch(', 'network request'],
@@ -137,8 +150,16 @@ const FORBIDDEN = [
 ];
 
 for (const [needle, why] of FORBIDDEN) {
-  check(`content.js contains no ${needle}`, !source.includes(needle), why);
+  check(`shipped code contains no ${needle}`, !source.includes(needle), why);
 }
+
+// An options page that pulled in a remote script would defeat the check above, so the
+// page is required to reference only its own local script.
+const optionsPage = read('options.html');
+check(
+  'options.html loads only local scripts',
+  [...optionsPage.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].every((m) => !/^(https?:)?\/\//.test(m[1]))
+);
 
 check(
   'storage use is chrome.storage.local only',
@@ -233,7 +254,7 @@ check('landing page has no dead-end CTA', !/href="#"/.test(landing), 'a button l
 
 section('package');
 
-const SHIPPED = ['manifest.json', 'content.js', 'content.css', ...iconPaths];
+const SHIPPED = ['manifest.json', 'content.js', 'content.css', 'options.html', 'options.js', ...iconPaths];
 for (const file of SHIPPED) {
   check(`${file} present`, existsSync(join(ROOT, file)));
 }

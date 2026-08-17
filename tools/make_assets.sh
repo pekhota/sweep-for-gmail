@@ -47,3 +47,14 @@ do
     render "$1" "$2" "$3"
   fi
 done
+
+# The landing page serves its own copies of some of these, and a stale copy there is
+# invisible until someone points out the site does not match the store. Re-copy whatever
+# docs/ already holds; never add files it has not opted into.
+for f in docs/*.png; do
+  name="$(basename "$f")"
+  if [ -f "assets/store/$name" ]; then
+    cp "assets/store/$name" "$f"
+    echo "synced -> $f"
+  fi
+done

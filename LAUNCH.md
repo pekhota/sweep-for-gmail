@@ -151,6 +151,23 @@ Do not build any of this before real users ask. In rough order of likely demand:
 - **Sender leaderboard** — "these 10 senders account for 60% of your mail"; highly shareable
 - **Firefox and Edge builds** — the same code, two more stores, more search surface
 
+### Parked: a placement choice for the bottom pager
+
+Considered on 16 August 2026, deliberately not built. The pager already has two placements
+in `mountPager()`, so exposing them looks free — it isn't:
+
+- They are **not coequal**. Footer is the intent; floating is the fallback for when
+  `listFooter()` finds no anchor. A "Footer" option would therefore do nothing at all on
+  any view where the anchor is missing, which is the dead control invariant #4 forbids. The
+  only honest options are **Auto** and **Always floating**.
+- Floating is `position: fixed` bottom-right, where Gmail's chat and compose widgets sit.
+  Fine as a rescue; a worse thing to let someone pick blind.
+- Every setting multiplies a test matrix that is entirely manual by design — already
+  inbox / label / category / search × short and long result sets.
+
+Build it if someone actually reports the footer placement as a problem. "I don't want this
+feature" earned the on/off toggle; "move it 200px" has not been asked by anyone yet.
+
 ---
 
 ## Measuring
