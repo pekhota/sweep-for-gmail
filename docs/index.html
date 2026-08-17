@@ -59,6 +59,16 @@
     box-shadow: 0 10px 26px rgba(79,70,229,.32);
   }
   .trust { margin-top: 1.4rem; color: var(--muted); font-size: .92rem; }
+  .badges {
+    display: flex; gap: .55rem; justify-content: center; flex-wrap: wrap; margin-top: 1.7rem;
+  }
+  .badges span {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .42rem .85rem; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--panel);
+    font-size: .88rem; font-weight: 500; color: var(--fg);
+  }
+  .badges span::before { content: "✓"; color: var(--accent); font-weight: 700; }
 
   .shot { margin: 1rem auto 0; max-width: 58rem; }
   .shot img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line);
@@ -112,13 +122,20 @@
     <h1>Delete every email from one sender.<br><span>In two clicks.</span></h1>
     <p class="sub">
       Four years of a newsletter you never opened, gone. Sweep finds every message from a
-      sender and selects the lot — then you press Delete.
+      sender and selects the lot — then you press Delete. It never signs in to anything and
+      makes no network requests, so your mail stays exactly where it is.
     </p>
     <div class="cta">
       <a class="btn primary" href="https://chromewebstore.google.com/detail/ofdipbaabgefcdmhjkacfbingkkbaohf" id="cws">Add to Chrome — free</a>
       <a class="btn" href="https://github.com/pekhota/sweep-for-gmail">View source</a>
     </div>
-    <p class="trust">No sign-in · No inbox access · No data collected · Open source</p>
+    <div class="badges">
+      <span>Free &amp; open source</span>
+      <span>No sign-in</span>
+      <span>No inbox access</span>
+      <span>Zero network requests</span>
+      <span>No data collected</span>
+    </div>
   </div>
 
   <div class="shot">
@@ -194,10 +211,35 @@
         <tr><td>Source code</td><td class="yes">Public</td><td class="no">Closed</td></tr>
       </tbody>
     </table>
+    <div class="card" style="margin-top:1.8rem">
+      <h3 style="margin-bottom:.5rem">
+        “Chrome says it can read and change my data on mail.google.com”
+      </h3>
+      <p>
+        It does say that, and it is worth understanding rather than ignoring. Chrome shows
+        that line for <em>every</em> extension that touches a web page — an ad blocker, a
+        grammar checker, a dark-mode theme. It describes the page in front of you, not your
+        account.
+      </p>
+      <p style="margin-top:.7rem">
+        For Sweep it means: while a Gmail tab is open, it can see that tab and click things
+        in it, exactly as you can. That is the whole mechanism — it finds the sender and
+        ticks the checkboxes so you don't have to. It is limited to
+        <code>mail.google.com</code> and to the moments you have Gmail open.
+      </p>
+      <p style="margin-top:.7rem">
+        What that permission does <strong>not</strong> grant, and what the code cannot do:
+        reach your mail when the browser is closed, sign in to your account, or send
+        anything anywhere. There is no network code in the extension at all, which is
+        checked automatically on every change — see
+        <a href="https://github.com/pekhota/sweep-for-gmail/blob/main/tools/validate.mjs">the test that enforces it</a>.
+      </p>
+    </div>
+
     <p style="margin-top:1.6rem; color:var(--muted); font-size:.95rem">
       Read the <a href="privacy.html">privacy policy</a>, or just
       <a href="https://github.com/pekhota/sweep-for-gmail/blob/main/content.js">read the code</a> —
-      it's one file.
+      it's short enough to finish.
     </p>
   </section>
 
@@ -239,6 +281,14 @@
       <div class="card">
         <h3>Does it unsubscribe me?</h3>
         <p>No. Sweep deletes what already arrived. Use Gmail's own unsubscribe link to stop new mail.</p>
+      </div>
+      <div class="card">
+        <h3>Is it really free? What's the catch?</h3>
+        <p>Free, with no paid tier and no ads. There is no catch to find: with no server and no network requests, there is no data to collect and nothing to sell. It is the kind of tool that costs nothing to give away.</p>
+      </div>
+      <div class="card">
+        <h3>How do I check any of this myself?</h3>
+        <p>The source is public and small. Search it for <code>fetch</code> or <code>XMLHttpRequest</code> and you will find none — and CI blocks any change that adds one.</p>
       </div>
     </div>
   </section>

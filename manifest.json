@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Sweep — Bulk Delete Email by Sender for Gmail",
   "version": "1.0.0",
-  "description": "Delete every email from one sender in two clicks. Filter by age, size or read state first. No sign-in, nothing leaves your browser.",
+  "description": "Delete every email from one sender in two clicks. Free and open source, no sign-in, no inbox access, zero network requests.",
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",

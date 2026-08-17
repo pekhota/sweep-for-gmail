@@ -16,24 +16,24 @@ resubmission, an update, or a second reviewer question never has to be re-derive
 
 ## Store listing tab
 
-| Field              | Answer                                                                 |
-| ------------------ | ---------------------------------------------------------------------- |
-| Name               | `Sweep — Bulk Delete Email by Sender for Gmail` (45/75)                |
-| Summary            | `dist/listing/summary.txt` (131/132)                                   |
-| Description        | `dist/listing/description.txt` (2,612/16,000)                          |
-| Category           | **Productivity**                                                       |
-| Sub-category       | **Communication**                                                      |
-| Language           | **English (United States)**                                            |
-| Store icon         | `icons/icon-128.png` — 128×128 PNG, 1.9 KB                             |
-| Screenshots        | `assets/store/shot-1..5.png` — all 1280×800, uploaded in numeric order |
-| Small promo tile   | `assets/store/promo-small.png` — 440×280                               |
-| Marquee promo tile | `assets/store/promo-marquee.png` — 1400×560                            |
-| Promo video        | **Left empty** — optional, needs a YouTube URL                         |
-| Official URL       | **None** — see note below                                              |
-| Homepage URL       | `https://pekhota.github.io/sweep-for-gmail/`                           |
-| Support URL        | `https://github.com/pekhota/sweep-for-gmail/issues`                    |
-| Mature content     | **Off**                                                                |
-| Item support       | **On** — store policy expects reachable support                        |
+| Field              | Answer                                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| Name               | `Sweep — Bulk Delete Email by Sender for Gmail` (45/75)                                                         |
+| Summary            | `dist/listing/summary.txt` (123/132)                                                                            |
+| Description        | `dist/listing/description.txt` (3,806/16,000)                                                                   |
+| Category           | **Productivity**                                                                                                |
+| Sub-category       | **Communication**                                                                                               |
+| Language           | **English (United States)**                                                                                     |
+| Store icon         | `icons/icon-128.png` — 128×128 PNG, 1.9 KB                                                                      |
+| Screenshots        | `assets/store/shot-1..5.png` — all 1280×800; upload order is 1, 5, 2, 3, 4, not numeric — see CHROMEWEBSTORE.md |
+| Small promo tile   | `assets/store/promo-small.png` — 440×280                                                                        |
+| Marquee promo tile | `assets/store/promo-marquee.png` — 1400×560                                                                     |
+| Promo video        | **Left empty** — optional, needs a YouTube URL                                                                  |
+| Official URL       | **None** — see note below                                                                                       |
+| Homepage URL       | `https://pekhota.github.io/sweep-for-gmail/`                                                                    |
+| Support URL        | `https://github.com/pekhota/sweep-for-gmail/issues`                                                             |
+| Mature content     | **Off**                                                                                                         |
+| Item support       | **On** — store policy expects reachable support                                                                 |
 
 **Why Official URL is None.** It only accepts a site verified in Google Search Console.
 This is a GitHub Pages _project_ site, so verification would require owning the whole

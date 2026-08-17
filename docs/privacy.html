@@ -58,9 +58,10 @@
 
 <h2>What Sweep stores</h2>
 <p>
-  One thing: your filter preferences — the age limit, size limit, read state, and whether to
-  keep starred or important mail. These are saved with <code>chrome.storage.local</code> on
-  your own computer so you don't have to set them again on every cleanup.
+  Two things, both settings you chose: your filter preferences — the age limit, size limit,
+  read state, and whether to keep starred or important mail — and whether the bottom
+  pagination control is switched on. These are saved with <code>chrome.storage.local</code>
+  on your own computer so you don't have to set them again on every cleanup.
 </p>
 <p>
   This is local storage only. It is never synced to a Google account, never leaves the
@@ -70,7 +71,7 @@
 <h2>What Sweep sends</h2>
 <p>
   Nothing. The extension contains no code that opens a network connection. You can confirm
-  this yourself — the entire extension is one readable file:
+  this yourself — the whole extension is a couple of short, readable files:
 </p>
 <ul>
   <li>No <code>fetch</code>, <code>XMLHttpRequest</code>, <code>WebSocket</code> or <code>sendBeacon</code> calls</li>
@@ -90,7 +91,7 @@
 
 <h2>Permissions</h2>
 <ul>
-  <li><strong>storage</strong> — saves your filter preferences locally, as described above.</li>
+  <li><strong>storage</strong> — saves your filter preferences and options locally, as described above.</li>
   <li><strong>Access to mail.google.com</strong> — required to add Sweep's controls to the
       Gmail interface. The extension runs on no other website.</li>
 </ul>
