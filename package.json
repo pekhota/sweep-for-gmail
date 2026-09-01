@@ -21,7 +21,7 @@
     "typecheck": "tsc -p jsconfig.json"
   },
   "devDependencies": {
-    "@types/chrome": "^0.2.5",
+    "@types/chrome": "^0.2.7",
     "@types/node": "^26.2.0",
     "eslint": "^10.8.1",
     "prettier": "^3.3.3",
